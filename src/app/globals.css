@@ -325,3 +325,6 @@ section[id] {
   border-color: var(--color-accent-blue);
   box-shadow: 0 0 0 2px rgba(62, 127, 226, 0.2);
 }
+.bg-gradient-radial {
+  background: radial-gradient(circle at center, #991b1b, #dc2626, #b91c1c, #7f1d1d);
+}
