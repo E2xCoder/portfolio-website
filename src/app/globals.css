@@ -13,14 +13,14 @@
 }
 
 [data-theme="light"] {
-  /* Light theme colors */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #64748b;
-  --color-accent-blue: #3e7fe2;
-  --color-accent-blue-hover: #ffc400;
-  --color-border: #e2e8f0;
+  /* BLOOD THEME - Kan kırmızısı light mode */
+  --color-bg-primary: #7f1d1d;        /* Koyu kan kırmızısı arkaplan */
+  --color-bg-secondary: #991b1b;      /* Daha koyu kırmızı sections için */  
+  --color-text-primary: #fef2f2;      /* Açık kırmızımsı beyaz yazılar */
+  --color-text-secondary: #fecaca;    /* Açık pembe secondary yazılar */
+  --color-accent-blue: #fbbf24;       /* Turuncu/sarı accent (kırmızı ile kontrast) */
+  --color-accent-blue-hover: #f59e0b; /* Koyu turuncu hover */
+  --color-border: #dc2626;            /* Kırmızı borderlar */
 }
 
 * {
@@ -325,6 +325,7 @@ section[id] {
   border-color: var(--color-accent-blue);
   box-shadow: 0 0 0 2px rgba(62, 127, 226, 0.2);
 }
+
 .bg-gradient-radial {
   background: radial-gradient(circle at center, #991b1b, #dc2626, #b91c1c, #7f1d1d);
 }
