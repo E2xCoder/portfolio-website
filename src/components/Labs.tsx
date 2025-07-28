@@ -14,14 +14,14 @@ export default function Labs() {
     {
       title: "Introduction to Linux Course",
       description: "Completed Codecademy Introduction to Linux on Bash Scripting and Users & Permissions. Covered Linux architecture and kernel structure, file system hierarchy, user and group management, file ownership and permission settings, basic shell utilities, navigation commands, Bash scripting fundamentals with real‑world script projects, automation via build scripts and workflow tools.",
-      image: "https://ibb.co/7Jfwh4sd",
+      image: "https://i.ibb.co/3y3DKzg9/Ekran-g-r-nt-s-28-7-2025-3227.jpg",
       link: "https://drive.google.com/file/d/1vUuYJmro6n_O70kGLHwjM-AfoPqNzPQ-/view",
       buttonText: "View"
     },
     {
       title: "Learn Bash Scripting Course",
       description: "Covered Bash shebang (#!/bin/bash), variables and positional arguments, reading user input (read), comparison operators (==, !=), control structures (if‑else, loops), aliases, script permissions and execution, basic automation, script projects and quiz-based validation .",
-      image: "https://ibb.co/bR2R7Pz8",
+      image: "https://i.ibb.co/7NRNbX26/Ekran-g-r-nt-s-28-7-2025-326.jpg",
       link: "https://drive.google.com/file/d/1kJ3Ld9v9sj28RBoC0VtmQ2xlCxtRmiti/view",
       buttonText: "View"
     }

@@ -50,7 +50,7 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <div className="w-24 h-24 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--color-bg-secondary)' }}>
               <Image
-                src="https://ibb.co/p6Q0RPh4"
+                src="https://i.ibb.co/ympfYR4g/4L4A0470.jpg"
                 alt="Emre Eren"
                 width={96}
                 height={96}
