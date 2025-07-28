@@ -7,7 +7,7 @@ export default function Labs() {
     {
       title: "IBM SkillBuild Cybersecurity Fundamentals",
       description: "Covers CIA Triad, five foundational security principles, threat actor groups, cyberattack tactics and social engineering, common attack types, incident response and vulnerability management, IAM and endpoint security, network and application security, encryption techniques, hashing and PKI, security frameworks and compliance, case studies, overall defense strategies, and career roles in cybersecurity.",
-      image: "https://ibb.co/xqB16pxN",
+      image: "https://i.ibb.co/hF4BVP3S/Screenshot-2025-07-28-024311.png",
       link: "https://drive.google.com/file/d/1LP6U14Tz7w8OLwoZyNbxqDNnYL0s5SRB/view",
       buttonText: "View"
     },
