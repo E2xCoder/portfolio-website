@@ -18,18 +18,49 @@
   --color-accent-cyan: #06b6d4;
   --color-border-light: #374151;
   
-  /* Dark Theme Gradients */
+  /* Dark Theme Gradients - ORIGINAL GRİ RENKLER (SİTENDEKİ GİBİ) */
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   --gradient-secondary: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
-  --gradient-hero: linear-gradient(135deg, #1e40af 0%, #3730a3 50%, #1e1b4b 100%);
+  --gradient-hero: linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%);
   --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --gradient-animated: linear-gradient(-45deg, #1e40af, #3730a3, #6366f1, #8b5cf6);
+  --gradient-animated: linear-gradient(-45deg, #111827, #1f2937, #374151, #1f2937);
   
   /* Shadow Variables */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4);
+}
+
+[data-theme="light"] {
+  /* BLOOD THEME - Kan kırmızısı light mode */
+  --color-bg-primary: #7f1d1d;        /* Koyu kan kırmızısı arkaplan */
+  --color-bg-secondary: #991b1b;      /* Daha koyu kırmızı sections için */  
+  --color-text-primary: #fef2f2;      /* Açık kırmızımsı beyaz yazılar */
+  --color-text-secondary: #fecaca;    /* Açık pembe secondary yazılar */
+  --color-accent-blue: #fbbf24;       /* Turuncu/sarı accent (kırmızı ile kontrast) */
+  --color-accent-blue-hover: #f59e0b; /* Koyu turuncu hover */
+  --color-border: #dc2626;            /* Kırmızı borderlar */
+  
+  /* ========== BLOOD THEME GRADIENT ADDITIONS ========== */
+  --color-bg-tertiary: #b91c1c;
+  --color-accent-purple: #fbbf24;
+  --color-accent-pink: #f97316;
+  --color-accent-cyan: #eab308;
+  --color-border-light: #ef4444;
+  
+  /* Blood Theme Gradients - KAN KIRMIZI HERO */
+  --gradient-primary: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  --gradient-secondary: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+  --gradient-hero: linear-gradient(135deg, #7f1d1d 0%, #991b1b 25%, #b91c1c 50%, #dc2626 75%, #7f1d1d 100%);
+  --gradient-accent: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-animated: linear-gradient(-45deg, #7f1d1d, #991b1b, #dc2626, #f97316);
+  
+  /* Enhanced shadows for blood theme */
+  --shadow-sm: 0 1px 2px 0 rgb(127 29 29 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(127 29 29 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(127 29 29 / 0.5);
+  --shadow-xl: 0 20px 25px -5px rgb(127 29 29 / 0.6);
 }
 
 [data-theme="light"] {
