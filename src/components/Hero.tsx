@@ -100,8 +100,7 @@ export default function Hero() {
             <button
               onClick={() => {
                 console.log('🎯 BUTTON CLICKED!');
-                handleSmoothScroll({ preventDefault: () => {} } as React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-                "#projects"
+                handleSmoothScroll({ preventDefault: () => {} } as unknown as React.MouseEvent, "#projects");
               );
 
               }}
