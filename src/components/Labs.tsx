@@ -1,6 +1,229 @@
 'use client';
 
 import Image from "next/image";
+import { useEffect, useRef } from 'react';
+
+// Neural Network Animation Component
+const NeuralNetwork = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Neural network nodes
+    const nodes: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      connections: number[];
+      pulsePhase: number;
+      activity: number;
+    }> = [];
+
+    // Create nodes
+    const createNodes = () => {
+      nodes.length = 0;
+      const nodeCount = Math.min(20, Math.floor((canvas.width * canvas.height) / 15000));
+      
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: Math.random() * 3 + 2,
+          connections: [],
+          pulsePhase: Math.random() * Math.PI * 2,
+          activity: Math.random()
+        });
+      }
+
+      // Create connections between nearby nodes
+      nodes.forEach((node, i) => {
+        nodes.forEach((otherNode, j) => {
+          if (i !== j) {
+            const distance = Math.sqrt(
+              Math.pow(node.x - otherNode.x, 2) + 
+              Math.pow(node.y - otherNode.y, 2)
+            );
+            if (distance < 150 && node.connections.length < 4) {
+              node.connections.push(j);
+            }
+          }
+        });
+      });
+    };
+
+    createNodes();
+
+    // Animation variables
+    let time = 0;
+    const signals: Array<{
+      fromIndex: number;
+      toIndex: number;
+      progress: number;
+      intensity: number;
+    }> = [];
+
+    // Create neural signals
+    const createSignal = () => {
+      if (signals.length < 5 && Math.random() < 0.02) {
+        const fromNode = nodes[Math.floor(Math.random() * nodes.length)];
+        if (fromNode.connections.length > 0) {
+          const toIndex = fromNode.connections[Math.floor(Math.random() * fromNode.connections.length)];
+          signals.push({
+            fromIndex: nodes.indexOf(fromNode),
+            toIndex: toIndex,
+            progress: 0,
+            intensity: Math.random() * 0.5 + 0.5
+          });
+        }
+      }
+    };
+
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      time += 0.01;
+
+      // Update and draw nodes
+      nodes.forEach((node, i) => {
+        // Update position with gentle movement
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Bounce off edges
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+
+        // Keep nodes in bounds
+        node.x = Math.max(0, Math.min(canvas.width, node.x));
+        node.y = Math.max(0, Math.min(canvas.height, node.y));
+
+        // Update activity
+        node.activity = (Math.sin(time + node.pulsePhase) + 1) / 2;
+
+        // Draw connections
+        node.connections.forEach(connectionIndex => {
+          const connectedNode = nodes[connectionIndex];
+          if (connectedNode) {
+            const opacity = (node.activity + connectedNode.activity) / 4;
+            
+            // Connection color based on activity
+            const hue = 200 + (node.activity * 60); // Blue to cyan
+            ctx.strokeStyle = `hsla(${hue}, 70%, 60%, ${opacity * 0.3})`;
+            ctx.lineWidth = 1;
+            
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(connectedNode.x, connectedNode.y);
+            ctx.stroke();
+          }
+        });
+
+        // Draw node
+        const nodeOpacity = 0.4 + node.activity * 0.6;
+        const nodeSize = node.radius + node.activity * 2;
+        
+        // Node glow
+        const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, nodeSize * 3);
+        gradient.addColorStop(0, `hsla(${180 + node.activity * 40}, 70%, 60%, ${nodeOpacity * 0.8})`);
+        gradient.addColorStop(1, 'transparent');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, nodeSize * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Node core
+        ctx.fillStyle = `hsla(${180 + node.activity * 40}, 80%, 70%, ${nodeOpacity})`;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, nodeSize, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Create and update signals
+      createSignal();
+      
+      signals.forEach((signal, index) => {
+        const fromNode = nodes[signal.fromIndex];
+        const toNode = nodes[signal.toIndex];
+        
+        if (fromNode && toNode) {
+          signal.progress += 0.02;
+          
+          if (signal.progress <= 1) {
+            // Calculate signal position
+            const x = fromNode.x + (toNode.x - fromNode.x) * signal.progress;
+            const y = fromNode.y + (toNode.y - fromNode.y) * signal.progress;
+            
+            // Draw signal
+            const signalOpacity = signal.intensity * (1 - signal.progress * 0.5);
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, 8);
+            gradient.addColorStop(0, `rgba(255, 255, 255, ${signalOpacity})`);
+            gradient.addColorStop(0.5, `rgba(100, 200, 255, ${signalOpacity * 0.8})`);
+            gradient.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Activate destination node when signal arrives
+            if (signal.progress > 0.9) {
+              toNode.activity = Math.min(1, toNode.activity + 0.3);
+            }
+          } else {
+            signals.splice(index, 1);
+          }
+        } else {
+          signals.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    // Recreate nodes on resize
+    const handleResize = () => {
+      resizeCanvas();
+      createNodes();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full opacity-30"
+      style={{ zIndex: 1 }}
+    />
+  );
+};
 
 export default function Labs() {
   const labProjects = [
@@ -56,17 +279,13 @@ export default function Labs() {
 
   return (
     <section id="cyber-labs" className="sec-pad gradient-projects relative overflow-hidden">
-      {/* Cybersecurity Themed Floating Elements */}
-      <div className="floating-gradient floating-gradient-1 opacity-30"></div>
-      <div className="floating-gradient floating-gradient-2 opacity-20"></div>
-      <div className="floating-gradient floating-gradient-3 opacity-25"></div>
+      {/* Neural Network Background */}
+      <NeuralNetwork />
       
-      {/* Matrix Rain Effect (subtle) */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-green-400 to-transparent animate-pulse"></div>
-        <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-blue-400 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-red-400 to-transparent animate-pulse" style={{animationDelay: '2s'}}></div>
-      </div>
+      {/* Floating Gradient Elements - Enhanced for Neural Theme */}
+      <div className="floating-gradient floating-gradient-1 opacity-20" style={{ zIndex: 2 }}></div>
+      <div className="floating-gradient floating-gradient-2 opacity-15" style={{ zIndex: 2 }}></div>
+      <div className="floating-gradient floating-gradient-3 opacity-18" style={{ zIndex: 2 }}></div>
 
       <div className="main-container relative z-10">
         <h2 className="heading-sec animate-fade-in-up">
@@ -85,11 +304,17 @@ export default function Labs() {
               className={`grid lg:grid-cols-2 gap-12 items-center ${
                 index % 2 === 0 ? 'animate-fade-in-left' : 'animate-fade-in-right'
               }`}
-              style={{ animationDelay: `${index * 0.3}s` }}
+              style={{ 
+                animationDelay: `${index * 0.3}s`,
+                zIndex: 5
+              }}
             >
               {/* Content */}
               <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                <div className="gradient-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 group">
+                <div className="gradient-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 group relative">
+                  {/* Neural Connection Indicator */}
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
+                  
                   {/* Provider Badge */}
                   <div className="flex items-center gap-3 mb-4">
                     <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold text-white bg-gradient-to-r ${getCategoryColor(project.category)} shadow-lg`}>
@@ -155,9 +380,9 @@ export default function Labs() {
                     ✓ Verified
                   </div>
                   
-                  {/* Security Lock Animation */}
+                  {/* Neural Activity Indicator */}
                   <div className="absolute top-4 left-4 z-20 text-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-                    🔒
+                    🧠
                   </div>
                   
                   <div className="relative z-10 transition-all duration-500 hover:scale-105 group-hover:rotate-1">
@@ -171,8 +396,8 @@ export default function Labs() {
                           className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
                         />
                         
-                        {/* Scan Line Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12"></div>
+                        {/* Neural Scan Line Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12"></div>
                       </div>
                     </div>
                   </div>
@@ -182,21 +407,40 @@ export default function Labs() {
           ))}
         </div>
 
-        {/* Stats Section */}
-        <div className="text-center mt-20 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-          <div className="gradient-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 inline-block">
-            <div className="grid grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-2">3+</div>
+        {/* Enhanced Stats Section with Neural Theme */}
+        <div className="text-center mt-20 animate-fade-in-up relative z-10" style={{ animationDelay: '1.2s' }}>
+          <div className="gradient-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 inline-block relative overflow-hidden">
+            {/* Neural Grid Background */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="grid grid-cols-6 grid-rows-4 h-full w-full gap-4 p-4">
+                {Array.from({length: 24}).map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full animate-pulse"
+                    style={{
+                      animationDelay: `${i * 0.1}s`,
+                      animationDuration: `${2 + Math.random() * 2}s`
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-8 text-center relative z-10">
+              <div className="group cursor-pointer">
+                <div className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">3+</div>
                 <div className="text-sm text-gray-400">Certificates</div>
+                <div className="w-8 h-0.5 bg-gradient-to-r from-red-400 to-orange-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
-              <div>
-                <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2">15+</div>
+              <div className="group cursor-pointer">
+                <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">15+</div>
                 <div className="text-sm text-gray-400">Skills Learned</div>
+                <div className="w-8 h-0.5 bg-gradient-to-r from-green-400 to-teal-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
-              <div>
-                <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">50+</div>
+              <div className="group cursor-pointer">
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">50+</div>
                 <div className="text-sm text-gray-400">Hours Studied</div>
+                <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
             </div>
           </div>

@@ -1,6 +1,80 @@
 'use client';
 
 import Image from "next/image";
+import { useEffect, useRef } from 'react';
+
+// Matrix Rain Component
+const MatrixRain = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Matrix characters (mix of code symbols and Japanese katakana)
+    const chars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>{}[]()';
+    const charArray = chars.split('');
+
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops: number[] = [];
+
+    // Initialize drops
+    for (let x = 0; x < columns; x++) {
+      drops[x] = Math.random() * canvas.height;
+    }
+
+    const draw = () => {
+      // Semi-transparent black background for trail effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0F4';
+      ctx.font = fontSize + 'px monospace';
+
+      // Draw the characters
+      for (let i = 0; i < drops.length; i++) {
+        const text = charArray[Math.floor(Math.random() * charArray.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        // Send the drop back to the top randomly after it has crossed the screen
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        // Increment Y coordinate
+        drops[i]++;
+      }
+    };
+
+    const interval = setInterval(draw, 35);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full opacity-20"
+      style={{ zIndex: 1 }}
+    />
+  );
+};
 
 export default function Projects() {
   const projects = [
@@ -29,10 +103,13 @@ export default function Projects() {
 
   return (
     <section id="projects" className="gradient-projects sec-pad relative overflow-hidden">
+      {/* Matrix Rain Background - Section Specific */}
+      <MatrixRain />
+      
       {/* Floating Gradient Elements */}
-      <div className="floating-gradient floating-gradient-1"></div>
-      <div className="floating-gradient floating-gradient-2"></div>
-      <div className="floating-gradient floating-gradient-3"></div>
+      <div className="floating-gradient floating-gradient-1" style={{ zIndex: 2 }}></div>
+      <div className="floating-gradient floating-gradient-2" style={{ zIndex: 2 }}></div>
+      <div className="floating-gradient floating-gradient-3" style={{ zIndex: 2 }}></div>
 
       <div className="main-container relative z-10">
         <h2 className="heading-sec animate-fade-in-up">
@@ -44,7 +121,10 @@ export default function Projects() {
             <div
               key={project.title}
               className={`gradient-card-project group relative overflow-hidden rounded-2xl p-8 backdrop-blur-lg border border-white/10 ${index % 2 === 0 ? 'animate-fade-in-left' : 'animate-fade-in-right'}`}
-              style={{ animationDelay: `${index * 0.2}s` }}
+              style={{ 
+                animationDelay: `${index * 0.2}s`,
+                zIndex: 5 
+              }}
             >
               {/* Card Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -133,7 +213,7 @@ export default function Projects() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-20">
+        <div className="text-center mt-20 relative z-10">
           <div className="gradient-card inline-block p-8 rounded-2xl backdrop-blur-lg border border-white/10">
             <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>
               More Projects Coming Soon!
