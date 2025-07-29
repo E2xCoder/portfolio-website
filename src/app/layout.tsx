@@ -1,17 +1,14 @@
-import type { Metadata } from "next";
-import { Source_Sans_3 } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+// import { LanguageProvider } from '@/contexts/LanguageContext'; // ❌ Bunu kaldır
 
-const sourceSans = Source_Sans_3({
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Emre Eren - Portfolio",
-  description: "Emre Eren's portfolio - Software Developer from Germany",
+  title: 'Emre Eren - Software Developer',
+  description: 'Portfolio website of Emre Eren, Software Developer from Germany',
 };
 
 export default function RootLayout({
@@ -20,14 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${sourceSans.className} antialiased`}>
-        <LanguageProvider>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
-        </LanguageProvider>
-        <Analytics />
+    <html suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider>
+          {children}  {/* LanguageProvider'ı kaldırdık */}
+        </ThemeProvider>
       </body>
     </html>
   );
