@@ -2,8 +2,63 @@
 
 import Image from "next/image";
 import ParticleSystem from "./ParticleSystem";
+import { useState, useEffect } from "react";
 
 export default function Hero() {
+  // Hydration hatası için mounted state
+  const [mounted, setMounted] = useState(false);
+  
+  // Typewriter efekti için state'ler
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(100);
+
+  // Component mount kontrolü
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Dinamik metinler
+  const texts = [
+    "Software Developer.",
+    "Cybersecurity Enthusiast.",
+    "Computer Science Student.",
+    "Problem Solver."
+  ];
+
+  // Typewriter efekti - sadece client'ta çalışsın
+  useEffect(() => {
+    if (!mounted) return; // Server'da çalışmasın
+    
+    const currentFullText = texts[currentTextIndex];
+    
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // Yazma aşaması
+        if (displayText.length < currentFullText.length) {
+          setDisplayText(currentFullText.slice(0, displayText.length + 1));
+          setTypingSpeed(100);
+        } else {
+          // Tam metin yazıldı, 2 saniye bekle
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        // Silme aşaması
+        if (displayText.length > 0) {
+          setDisplayText(currentFullText.slice(0, displayText.length - 1));
+          setTypingSpeed(50);
+        } else {
+          // Metin silindi, bir sonraki metne geç
+          setIsDeleting(false);
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [mounted, displayText, isDeleting, currentTextIndex, typingSpeed, texts]);
+
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
 
@@ -101,7 +156,7 @@ export default function Hero() {
               </h1>
               
               <p 
-                className="text-xl md:text-2xl font-medium" 
+                className="text-xl md:text-2xl font-medium mb-4" 
                 style={{ 
                   animation: 'fadeInUp 0.6s ease-out 0.2s forwards', 
                   opacity: 0,
@@ -110,10 +165,31 @@ export default function Hero() {
               >
                  Thanks for stopping by!
               </p>
+
+              {/* Dinamik Typewriter Efekti */}
+              <div 
+                className="text-2xl md:text-3xl font-bold min-h-[2.5rem] flex items-center justify-center"
+                style={{ 
+                  animation: 'fadeInUp 0.6s ease-out 0.4s forwards', 
+                  opacity: 0,
+                  color: 'var(--color-accent-blue)'
+                }}
+              >
+                I'm a <span className="ml-2 relative">
+                  {mounted ? displayText : "Software Developer."}
+                  <span 
+                    className="animate-pulse ml-1 inline-block w-0.5 h-8 bg-current"
+                    style={{ 
+                      animation: 'blink 1s infinite',
+                      backgroundColor: 'var(--color-accent-blue)'
+                    }}
+                  ></span>
+                </span>
+              </div>
             </div>
 
-            {/* Info Card */}
-            <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            {/* Welcome Message - Sadece bu kaldı */}
+            <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               <div 
                 className="group relative overflow-hidden rounded-2xl p-8 backdrop-blur-lg border max-w-4xl mx-auto transition-all duration-500"
                 style={{
@@ -137,19 +213,19 @@ export default function Hero() {
                   }}
                 ></div>
                 
-                <div className="relative z-10 space-y-4">
-                  <p 
-                    className="text-lg md:text-xl leading-relaxed"
-                    style={{ color: 'var(--color-text-secondary)' }}
-                  >
-                    I'm from <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Turkey</span>, born in <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Kuwait</span>, and currently studying <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Computer Science</span> at BSBI in <span style={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>Berlin</span>.
-                  </p>
+                <div className="relative z-10">
                   <h2 
                     className="text-2xl md:text-3xl font-bold"
                     style={{ color: 'var(--color-text-primary)' }}
                   >
-                    Welcome to my portfolio! 🚀
+                    Welcome to my digital world! 🌟
                   </h2>
+                  <p 
+                    className="text-lg md:text-xl mt-4 leading-relaxed"
+                    style={{ color: 'var(--color-text-secondary)' }}
+                  >
+                    Explore my journey in software development and cybersecurity
+                  </p>
                 </div>
 
                 {/* Animated Border */}
@@ -165,8 +241,8 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* CTA Button */}
-            <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            {/* CTA Button - Explore My Projects */}
+            <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
               <button
                 onClick={() => {
                   console.log('🎯 BUTTON CLICKED!');
@@ -187,7 +263,7 @@ export default function Hero() {
                   e.currentTarget.style.borderColor = 'var(--color-border)';
                 }}
               >
-                <span>View Projects</span>
+                <span>Explore My Projects</span>
                 <svg 
                   className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" 
                   fill="none" 
@@ -352,6 +428,14 @@ export default function Hero() {
             }}
           ></div>
         </div>
+
+        {/* CSS için blink animasyonu */}
+        <style jsx>{`
+          @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+          }
+        `}</style>
       </section>
     </>
   );

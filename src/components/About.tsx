@@ -257,13 +257,13 @@ export default function About() {
               <div className="space-y-4 relative z-10">
                 <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
                   Hey! I'm <strong style={{ color: 'var(--color-accent-blue)' }}>Emre Eren</strong>. 
-                  I'm studying Computer Science in Berlin and currently in my first year.
+                  I'm studying Computer Science in BSBI. I was born in Kuwait and have my roots in Turkey. 
                 </p>
                 
                 <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
                   I'm mainly interested in{' '}
                   <strong style={{ color: 'var(--color-accent-blue)' }}>Cybersecurity</strong>, 
-                  but I also like software development, machine learning, and game development.
+                  but I also like software development, ML, and game development.
                 </p>
                 
                 <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
@@ -282,7 +282,7 @@ export default function About() {
                     1st Year
                   </div>
                   <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-                    Computer Science
+                    👨🏻‍🎓
                   </div>
                   <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-2 transform scale-0 group-hover/stat:scale-100 transition-transform duration-500"></div>
                 </div>
