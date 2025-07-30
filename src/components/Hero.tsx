@@ -14,12 +14,32 @@ export default function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(100);
 
+  // Mouse tracking için state'ler
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  // Mouse tracking efekti
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Viewport merkezine göre mouse pozisyonu
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      // -1 ile 1 arasında normalize et
+      const x = (e.clientX - centerX) / centerX;
+      const y = (e.clientY - centerY) / centerY;
+      
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   // Component mount kontrolü
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Dinamik metinler
   const texts = [
     "Software Developer.",
     "Cybersecurity Enthusiast.",
@@ -150,7 +170,30 @@ export default function Hero() {
             <div className="mb-8 animate-fade-in-up opacity-0" style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}>
               <h1 className="text-5xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                 <span style={{ color: 'var(--color-text-primary)' }}>Hey there — I'm </span>
-                <span style={{ color: 'var(--color-text-primary)' }} className="animate-pulse">
+                <span 
+                  className={`emre-highlight relative inline-block cursor-pointer ${isHovering ? 'hovering' : ''}`}
+                  style={{ 
+                    background: 'linear-gradient(135deg, var(--color-accent-blue) 0%, var(--color-accent-purple) 50%, var(--color-accent-cyan) 100%)',
+                    backgroundSize: '200% 200%',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    animation: `gradientShift 3s ease infinite ${isHovering ? ', shake 0.3s ease-in-out infinite' : ''}`,
+                    fontWeight: '800',
+                    transform: `
+                      scale(1.1) 
+                      perspective(1000px) 
+                      rotateX(${mousePosition.y * 15}deg) 
+                      rotateY(${mousePosition.x * 15}deg)
+                      ${isHovering ? 'translateZ(20px)' : 'translateZ(0px)'}
+                    `,
+                    display: 'inline-block',
+                    transition: 'transform 0.1s ease-out',
+                    transformStyle: 'preserve-3d'
+                  }}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                >
                   Emre!
                 </span>
               </h1>
@@ -176,14 +219,20 @@ export default function Hero() {
                 }}
               >
                 I'm a <span className="ml-2 relative">
-                  {mounted ? displayText : "Software Developer."}
-                  <span 
-                    className="animate-pulse ml-1 inline-block w-0.5 h-8 bg-current"
-                    style={{ 
-                      animation: 'blink 1s infinite',
-                      backgroundColor: 'var(--color-accent-blue)'
-                    }}
-                  ></span>
+                  {mounted ? (
+                    <>
+                      {displayText}
+                      <span 
+                        className="animate-pulse ml-1 inline-block w-0.5 h-8 bg-current"
+                        style={{ 
+                          animation: 'blink 1s infinite',
+                          backgroundColor: 'var(--color-accent-blue)'
+                        }}
+                      ></span>
+                    </>
+                  ) : (
+                    <span style={{ visibility: 'hidden' }}>Software Developer.</span>
+                  )}
                 </span>
               </div>
             </div>
@@ -434,6 +483,55 @@ export default function Hero() {
           @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
+          }
+          
+          .emre-highlight {
+            position: relative;
+            will-change: transform;
+            text-rendering: optimizeSpeed;
+          }
+          
+          .emre-highlight::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -10px;
+            right: -10px;
+            bottom: -5px;
+            background: linear-gradient(135deg, 
+              rgba(99, 102, 241, 0.3) 0%, 
+              rgba(139, 92, 246, 0.3) 50%, 
+              rgba(6, 182, 212, 0.3) 100%
+            );
+            border-radius: 15px;
+            filter: blur(20px);
+            z-index: -1;
+            animation: emrePulse 2s ease-in-out infinite;
+          }
+          
+          @keyframes emrePulse {
+            0%, 100% { 
+              opacity: 0.4;
+              transform: scale(0.95);
+            }
+            50% { 
+              opacity: 0.8;
+              transform: scale(1.05);
+            }
+          }
+          
+          @keyframes shake {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, 1px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            70% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            90% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
           }
         `}</style>
       </section>
