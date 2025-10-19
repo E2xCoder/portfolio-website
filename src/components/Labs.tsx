@@ -418,8 +418,8 @@ export default function Labs() {
                     key={i} 
                     className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full animate-pulse"
                     style={{
-                      animationDelay: `${i * 0.1}s`,
-                      animationDuration: `${2 + Math.random() * 2}s`
+                       animationDelay: `${i * 0.1}s`,
+                       animationDuration: `${2 + (i % 2) * 0.5}s`
                     }}
                   ></div>
                 ))}

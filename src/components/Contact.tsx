@@ -26,7 +26,7 @@ export default function Contact() {
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", message: "" }); // Clear form on success
+        setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus("error");
       }
@@ -41,7 +41,7 @@ export default function Contact() {
       ...formData,
       [e.target.name]: e.target.value
     });
-    setStatus("idle"); // Reset status when user types again
+    setStatus("idle");
   };
 
   const handleFocus = (fieldName: string) => {
@@ -81,13 +81,11 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="sec-pad gradient-contact relative overflow-hidden">
-      {/* Floating Contact-themed Elements */}
+    <section id="contact" className="sec-pad gradient-contact relative overflow-hidden" style={{ marginTop: '-180px', paddingTop: '1px' }}>
       <div className="floating-gradient floating-gradient-1 opacity-20"></div>
       <div className="floating-gradient floating-gradient-2 opacity-15"></div>
       <div className="floating-gradient floating-gradient-3 opacity-25"></div>
       
-      {/* Communication Lines Animation */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
         <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" style={{animationDelay: '1.5s'}}></div>
@@ -105,7 +103,6 @@ export default function Contact() {
         </p>
 
         <div className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-          {/* Contact Info Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <div className="gradient-card p-6 rounded-2xl backdrop-blur-lg border border-white/10 text-center group hover:border-blue-400/30 transition-all duration-300">
               <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl">
@@ -132,10 +129,8 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="gradient-card p-8 md:p-12 rounded-3xl backdrop-blur-lg border border-white/20 hover:border-white/30 transition-all duration-500">
             <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Name Field */}
               <div className="relative">
                 <label
                   htmlFor="name"
@@ -165,7 +160,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Email Field */}
               <div className="relative">
                 <label
                   htmlFor="email"
@@ -195,7 +189,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Message Field */}
               <div className="relative">
                 <label
                   htmlFor="message"
@@ -225,7 +218,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <div className="text-center">
                 <button
                   type="submit"
@@ -241,12 +233,10 @@ export default function Contact() {
                     {getButtonText()}
                   </span>
                   
-                  {/* Button shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
                 </button>
               </div>
 
-              {/* Status Messages */}
               {status === "success" && (
                 <div className="text-center p-4 bg-green-500/20 border border-green-400/30 rounded-xl backdrop-blur-sm animate-fade-in-up">
                   <div className="flex items-center justify-center gap-2 text-green-300 font-medium">
@@ -270,8 +260,6 @@ export default function Contact() {
               )}
             </form>
           </div>
-
-          
         </div>
       </div>
     </section>

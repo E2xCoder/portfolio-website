@@ -86,7 +86,7 @@ export default function Footer() {
                   animation: 'fade-in-delayed 1s ease-out 0.5s both'
                 }}
               >
-                Code. Secure. Repeat.
+                Code. Secure. Repeat. 😎
               </p>
             </div>
           </div>

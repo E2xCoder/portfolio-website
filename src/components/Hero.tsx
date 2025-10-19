@@ -5,27 +5,19 @@ import ParticleSystem from "./ParticleSystem";
 import { useState, useEffect } from "react";
 
 export default function Hero() {
-  // Hydration hatası için mounted state
   const [mounted, setMounted] = useState(false);
-  
-  // Typewriter efekti için state'ler
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(100);
-
-  // Mouse tracking için state'ler
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
-  // Mouse tracking efekti
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Viewport merkezine göre mouse pozisyonu
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
       
-      // -1 ile 1 arasında normalize et
       const x = (e.clientX - centerX) / centerX;
       const y = (e.clientY - centerY) / centerY;
       
@@ -36,10 +28,10 @@ export default function Hero() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Component mount kontrolü
   useEffect(() => {
     setMounted(true);
   }, []);
+
   const texts = [
     "Software Developer.",
     "Cybersecurity Enthusiast.",
@@ -47,29 +39,24 @@ export default function Hero() {
     "Problem Solver."
   ];
 
-  // Typewriter efekti - sadece client'ta çalışsın
   useEffect(() => {
-    if (!mounted) return; // Server'da çalışmasın
+    if (!mounted) return;
     
     const currentFullText = texts[currentTextIndex];
     
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Yazma aşaması
         if (displayText.length < currentFullText.length) {
           setDisplayText(currentFullText.slice(0, displayText.length + 1));
           setTypingSpeed(100);
         } else {
-          // Tam metin yazıldı, 2 saniye bekle
           setTimeout(() => setIsDeleting(true), 2000);
         }
       } else {
-        // Silme aşaması
         if (displayText.length > 0) {
           setDisplayText(currentFullText.slice(0, displayText.length - 1));
           setTypingSpeed(50);
         } else {
-          // Metin silindi, bir sonraki metne geç
           setIsDeleting(false);
           setCurrentTextIndex((prev) => (prev + 1) % texts.length);
         }
@@ -86,7 +73,6 @@ export default function Hero() {
     const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
-      // Header yüksekliğini bul
       const header = document.querySelector('header') || 
                     document.querySelector('nav') || 
                     document.querySelector('[data-header]');
@@ -94,31 +80,18 @@ export default function Hero() {
       let headerHeight = 0;
       if (header) {
         headerHeight = header.offsetHeight;
-        console.log('📏 Header height:', headerHeight);
       } else {
-        // Header bulunamazsa, sabit değer kullan
-        headerHeight = 80; // Varsayılan header yüksekliği
-        console.log('📏 Using default header height:', headerHeight);
+        headerHeight = 80;
       }
       
-      // Ekstra boşluk
       const extraSpace = 20;
       const totalOffset = headerHeight + extraSpace;
       
-      // Pozisyon hesapla
       const elementRect = targetElement.getBoundingClientRect();
       const currentScroll = window.pageYOffset;
       const elementTop = elementRect.top + currentScroll;
       const targetPosition = elementTop - totalOffset;
       
-      console.log('🎯 Scroll calculation:');
-      console.log('  Element top:', elementTop);
-      console.log('  Header height:', headerHeight);
-      console.log('  Extra space:', extraSpace);
-      console.log('  Total offset:', totalOffset);
-      console.log('  Target position:', targetPosition);
-      
-      // Scroll yap
       window.scrollTo({ 
         top: Math.max(0, targetPosition),
         behavior: "smooth" 
@@ -130,16 +103,14 @@ export default function Hero() {
     <>
       <ParticleSystem />
       
-      {/* ✅ CSS değişkenlerini kullanan ama normal mavi gradient koruyan */}
       <section 
-        className="min-h-screen relative pt-28 pb-0 overflow-hidden"
+        className="min-h-screen relative pt-28 pb-32 overflow-hidden"
         style={{
           background: 'var(--gradient-hero)',
           backgroundSize: '400% 400%',
           animation: 'gradientShift 15s ease infinite'
         }}
       >
-        {/* Floating Gradient Elements - Theme'e uyumlu */}
         <div 
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl animate-pulse"
           style={{ 
@@ -166,7 +137,6 @@ export default function Hero() {
 
         <div className="main-container relative z-10">
           <div className="text-center max-w-5xl mx-auto">
-            {/* Main Heading */}
             <div className="mb-8 animate-fade-in-up opacity-0" style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}>
               <h1 className="text-5xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                 <span style={{ color: 'var(--color-text-primary)' }}>Hey there — I'm </span>
@@ -209,7 +179,6 @@ export default function Hero() {
                  Thanks for stopping by!
               </p>
 
-              {/* Dinamik Typewriter Efekti */}
               <div 
                 className="text-2xl md:text-3xl font-bold min-h-[2.5rem] flex items-center justify-center"
                 style={{ 
@@ -237,7 +206,6 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Welcome Message - Sadece bu kaldı */}
             <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               <div 
                 className="group relative overflow-hidden rounded-2xl p-8 backdrop-blur-lg border max-w-4xl mx-auto transition-all duration-500"
@@ -253,7 +221,6 @@ export default function Hero() {
                   e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
                 }}
               >
-                {/* Card Gradient Overlay */}
                 <div 
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
@@ -277,7 +244,6 @@ export default function Hero() {
                   </p>
                 </div>
 
-                {/* Animated Border */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div 
                     className="absolute inset-0 rounded-2xl animate-gradient-border"
@@ -290,11 +256,9 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* CTA Button - Explore My Projects */}
             <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
               <button
                 onClick={() => {
-                  console.log('🎯 BUTTON CLICKED!');
                   handleSmoothScroll({ preventDefault: () => {} } as React.MouseEvent<HTMLAnchorElement, MouseEvent>, "#projects");
                 }}
                 className="inline-flex items-center gap-3 group/btn text-lg px-8 py-4 rounded-full border transition-all duration-300 cursor-pointer"
@@ -325,7 +289,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Desktop Social Icons */}
           <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col space-y-4" style={{ animation: 'fadeInLeft 0.6s ease-out 0.8s forwards', opacity: 0 }}>
             <a
               href="https://www.linkedin.com/in/emreern7/"
@@ -348,7 +311,6 @@ export default function Hero() {
                   e.currentTarget.style.borderColor = 'var(--color-border)';
                 }}
               >
-                {/* Glow Effect */}
                 <div 
                   className="absolute -inset-2 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: 'var(--color-accent-blue)' }}
@@ -385,7 +347,6 @@ export default function Hero() {
                   e.currentTarget.style.borderColor = 'var(--color-border)';
                 }}
               >
-                {/* Glow Effect */}
                 <div 
                   className="absolute -inset-2 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: 'var(--color-accent-blue)' }}
@@ -402,7 +363,6 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Mobile Social Icons */}
           <div className="lg:hidden flex justify-center space-x-6 mt-8" style={{ animation: 'fadeInUp 0.6s ease-out 1.0s forwards', opacity: 0 }}>
             <a
               href="https://www.linkedin.com/in/emreern7/"
@@ -451,7 +411,6 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Background Decorative Elements */}
           <div 
             className="absolute top-20 right-10 w-32 h-32 rounded-full blur-2xl animate-pulse opacity-60" 
             style={{ 
@@ -478,7 +437,6 @@ export default function Hero() {
           ></div>
         </div>
 
-        {/* CSS için blink animasyonu */}
         <style jsx>{`
           @keyframes blink {
             0%, 50% { opacity: 1; }

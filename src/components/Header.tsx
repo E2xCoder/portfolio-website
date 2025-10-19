@@ -63,7 +63,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 relative overflow-hidden ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 overflow-hidden ${
         isScrolled ? 'backdrop-blur-xl shadow-2xl' : 'backdrop-blur-md'
       }`}
       style={{
@@ -74,7 +74,7 @@ export default function Header() {
       }}
     >
       {/* Animated Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/50 via-black/50 to-gray-900/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/50 via-black/50 to-gray-900/50" style={{ pointerEvents: 'none'}} ></div>
       
       {/* Floating Gradient Elements */}
       <div className="floating-gradient floating-gradient-1"></div>
