@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import { title } from "process";
 import { useEffect, useRef } from 'react';
 
 // Neural Network Animation Component
@@ -256,7 +257,17 @@ export default function Labs() {
       provider: "Codecademy",
       category: "Scripting",
       skills: ["Bash", "Scripting", "Variables", "Control Flow", "Automation"]
-    }
+    },
+    {
+      title: "Scan Systems with Nmap Skill Path",
+      description: "Learned to perform network discovery, port scanning, and vulnerability auditing using Nmap. Created custom NSE scripts with Lua to automate scans and analyze results.",
+      image: "https://i.ibb.co/gLTJvdYb/nmapcertification.png",
+      link: "https://drive.google.com/file/d/1ak-hfGKl8mBTH-sZKpNWIYe17VgR_GSh/view?usp=drive_link",
+      buttonText: "View Certificate",
+      provider: " Codeacademy",
+      category: "Cybersecurity / Network Scanning",
+      skills: ["Lua", "NSE", "Network Scanning", "Linux CL"]
+    },
   ];
 
   const getCategoryColor = (category: string) => {
