@@ -261,7 +261,7 @@ export default function Labs() {
     {
       title: "Scan Systems with Nmap Skill Path",
       description: "Learned to perform network discovery, port scanning, and vulnerability auditing using Nmap. Created custom NSE scripts with Lua to automate scans and analyze results.",
-      image: "https://i.ibb.co/gLTJvdYb/nmapcertification.png",
+      image: "https://i.ibb.co/PzZt0jfD/nmapcertification.pngnmapcertification.png",
       link: "https://drive.google.com/file/d/1ak-hfGKl8mBTH-sZKpNWIYe17VgR_GSh/view?usp=drive_link",
       buttonText: "View Certificate",
       provider: " Codeacademy",
@@ -439,17 +439,17 @@ export default function Labs() {
             
             <div className="grid grid-cols-3 gap-8 text-center relative z-10">
               <div className="group cursor-pointer">
-                <div className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">3+</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">5+</div>
                 <div className="text-sm text-gray-400">Certificates</div>
                 <div className="w-8 h-0.5 bg-gradient-to-r from-red-400 to-orange-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
               <div className="group cursor-pointer">
-                <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">15+</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">25+</div>
                 <div className="text-sm text-gray-400">Skills Learned</div>
                 <div className="w-8 h-0.5 bg-gradient-to-r from-green-400 to-teal-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
               <div className="group cursor-pointer">
-                <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">50+</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">100+</div>
                 <div className="text-sm text-gray-400">Hours Studied</div>
                 <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-2 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </div>
