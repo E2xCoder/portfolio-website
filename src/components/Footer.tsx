@@ -1,6 +1,6 @@
 'use client';
 
-import Image from "next/image";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -10,17 +10,21 @@ export default function Footer() {
     >
       <div className="main-container">
         <div className="grid md:grid-cols-2 gap-12 mb-12 animate-fade-in-up">
+          
           {/* Social Section */}
           <div>
             <h4 className="text-2xl font-semibold mb-6" style={{ color: 'var(--color-text-primary)' }}>
               Social
             </h4>
+
             <div className="flex space-x-6">
+              
+              {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/in/-paul-harrison/"
+                href="https://www.linkedin.com/in/emreern7/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-lg transition-all duration-300 hover:scale-110"
+                className="group w-12 h-12 flex items-center justify-center rounded-lg transition-all duration-300 hover:scale-110"
                 style={{ backgroundColor: 'var(--color-bg-secondary)' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
@@ -29,18 +33,19 @@ export default function Footer() {
                   e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
                 }}
               >
-                <Image
-                  src="https://ext.same-assets.com/6507759/3844985022.png"
-                  alt="LinkedIn"
-                  width={24}
-                  height={24}
+                <FaLinkedin
+                  size={24}
+                  className="transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </a>
-               <a
-                href="https://github.com/paulhrsn"
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/e2xcoder"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 flex items-center justify-center rounded-lg transition-all duration-300 hover:scale-110"
+                className="group w-12 h-12 flex items-center justify-center rounded-lg transition-all duration-300 hover:scale-110"
                 style={{ backgroundColor: 'var(--color-bg-secondary)' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
@@ -49,20 +54,20 @@ export default function Footer() {
                   e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
                 }}
               >
-                <Image
-                  src="https://ext.same-assets.com/6507759/3223105816.png"
-                  alt="GitHub"
-                  width={24}
-                  height={24}
+                <FaGithub
+                  size={24}
+                  className="transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </a>
+
             </div>
           </div>
            
-          {/* Enhanced Name Section */}
+          {/* Name Section */}
           <div className="flex flex-col justify-center">
             <div className="relative">
-              {/* Main Text */}
+              
               <h4 
                 className="text-4xl md:text-5xl font-bold tracking-wide"
                 style={{ 
@@ -78,7 +83,6 @@ export default function Footer() {
                 Emre Eren
               </h4>
               
-              {/* Subtitle/Role */}
               <p 
                 className="text-lg mt-2 opacity-80 tracking-wider"
                 style={{ 
@@ -103,7 +107,6 @@ export default function Footer() {
         </div>
       </div>
       
-      {/* CSS Animations */}
       <style jsx>{`
         @keyframes text-gradient {
           0%, 100% { background-position: 0% 50%; }
