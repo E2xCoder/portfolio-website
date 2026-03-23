@@ -350,7 +350,7 @@ export default function About() {
               {[
                 { icon: '🛡️', text: 'Cybersecurity', delay: '0s' },
                 { icon: '💻', text: 'Software Development', delay: '0.1s' },
-                { icon: '🤖', text: 'Machine Learning', delay: '0.2s' }
+                { icon: '🎮', text: 'Game Development', delay: '0.2s' }
               ].map((focus) => (
                 <span 
                   key={focus.text}

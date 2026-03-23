@@ -1,8 +1,8 @@
 'use client';
 
-import Image from "next/image";
 import ParticleSystem from "./ParticleSystem";
 import { useState, useEffect } from "react";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -289,6 +289,7 @@ export default function Hero() {
             </div>
           </div>
 
+          {/* Desktop - Sol sidebar ikonlar */}
           <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col space-y-4" style={{ animation: 'fadeInLeft 0.6s ease-out 0.8s forwards', opacity: 0 }}>
             <a
               href="https://www.linkedin.com/in/emreern7/"
@@ -315,13 +316,10 @@ export default function Hero() {
                   className="absolute -inset-2 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: 'var(--color-accent-blue)' }}
                 ></div>
-                
-                <Image
-                  src="https://ext.same-assets.com/6507759/3844985022.png"
-                  alt="LinkedIn"
-                  width={28}
-                  height={28}
+                <FaLinkedin
+                  size={28}
                   className="relative z-10 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </div>
             </a>
@@ -351,18 +349,16 @@ export default function Hero() {
                   className="absolute -inset-2 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: 'var(--color-accent-blue)' }}
                 ></div>
-                
-                <Image
-                  src="https://ext.same-assets.com/6507759/3223105816.png"
-                  alt="GitHub"
-                  width={28}
-                  height={28}
+                <FaGithub
+                  size={28}
                   className="relative z-10 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </div>
             </a>
           </div>
 
+          {/* Mobile - Alt ikonlar */}
           <div className="lg:hidden flex justify-center space-x-6 mt-8" style={{ animation: 'fadeInUp 0.6s ease-out 1.0s forwards', opacity: 0 }}>
             <a
               href="https://www.linkedin.com/in/emreern7/"
@@ -377,12 +373,10 @@ export default function Hero() {
                   borderColor: 'var(--color-border)'
                 }}
               >
-                <Image
-                  src="https://ext.same-assets.com/6507759/3844985022.png"
-                  alt="LinkedIn"
-                  width={28}
-                  height={28}
+                <FaLinkedin
+                  size={28}
                   className="relative z-10 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </div>
             </a>
@@ -400,12 +394,10 @@ export default function Hero() {
                   borderColor: 'var(--color-border)'
                 }}
               >
-                <Image
-                  src="https://ext.same-assets.com/6507759/3223105816.png"
-                  alt="GitHub"
-                  width={28}
-                  height={28}
+                <FaGithub
+                  size={28}
                   className="relative z-10 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: 'var(--color-text-primary)' }}
                 />
               </div>
             </a>
