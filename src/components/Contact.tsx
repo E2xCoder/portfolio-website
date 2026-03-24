@@ -37,19 +37,8 @@ export default function Contact() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setStatus("idle");
-  };
-
-  const handleFocus = (fieldName: string) => {
-    setFocusedField(fieldName);
-  };
-
-  const handleBlur = () => {
-    setFocusedField(null);
   };
 
   const getButtonText = () => {
@@ -61,7 +50,7 @@ export default function Contact() {
 
   const getButtonIcon = () => {
     if (status === "sending") return (
-      <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
+      <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
     );
     if (status === "success") return (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,15 +70,20 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="sec-pad gradient-contact relative overflow-hidden" style={{ marginTop: '-180px', paddingTop: '1px' }}>
-      <div className="floating-gradient floating-gradient-1 opacity-20"></div>
-      <div className="floating-gradient floating-gradient-2 opacity-15"></div>
-      <div className="floating-gradient floating-gradient-3 opacity-25"></div>
-      
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
-        <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" style={{animationDelay: '1.5s'}}></div>
-        <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent animate-pulse" style={{animationDelay: '3s'}}></div>
+    <section
+      id="contact"
+      className="sec-pad gradient-contact relative overflow-hidden scroll-mt-28"
+    >
+      {/* Floating gradients */}
+      <div className="floating-gradient floating-gradient-1 opacity-20" />
+      <div className="floating-gradient floating-gradient-2 opacity-15" />
+      <div className="floating-gradient floating-gradient-3 opacity-25" />
+
+      {/* Decorative lines */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse" />
+        <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent animate-pulse" style={{ animationDelay: '3s' }} />
       </div>
 
       <div className="main-container relative z-10">
@@ -103,140 +97,114 @@ export default function Contact() {
         </p>
 
         <div className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          {/* Info cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="gradient-card p-6 rounded-2xl backdrop-blur-lg border border-white/10 text-center group hover:border-blue-400/30 transition-all duration-300">
-              <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl">
-                📧
+            {[
+              { icon: "📧", title: "Email", sub: "Quick Response", from: "from-blue-500", to: "to-cyan-500", hover: "hover:border-blue-400/30" },
+              { icon: "💼", title: "LinkedIn", sub: "Professional Network", from: "from-purple-500", to: "to-pink-500", hover: "hover:border-purple-400/30" },
+              { icon: "💬", title: "Chat", sub: "Let's Talk", from: "from-green-500", to: "to-teal-500", hover: "hover:border-green-400/30" },
+            ].map(({ icon, title, sub, from, to, hover }) => (
+              <div key={title} className={`gradient-card p-6 rounded-2xl backdrop-blur-lg border border-white/10 text-center group ${hover} transition-all duration-300`}>
+                <div className={`w-12 h-12 mx-auto mb-4 bg-gradient-to-r ${from} ${to} rounded-full flex items-center justify-center text-2xl`}>
+                  {icon}
+                </div>
+                <h3 className="font-semibold text-white mb-2">{title}</h3>
+                <p className="text-sm text-gray-400">{sub}</p>
               </div>
-              <h3 className="font-semibold text-white mb-2">Email</h3>
-              <p className="text-sm text-gray-400">Quick Response</p>
-            </div>
-            
-            <div className="gradient-card p-6 rounded-2xl backdrop-blur-lg border border-white/10 text-center group hover:border-purple-400/30 transition-all duration-300">
-              <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-2xl">
-                💼
-              </div>
-              <h3 className="font-semibold text-white mb-2">LinkedIn</h3>
-              <p className="text-sm text-gray-400">Professional Network</p>
-            </div>
-            
-            <div className="gradient-card p-6 rounded-2xl backdrop-blur-lg border border-white/10 text-center group hover:border-green-400/30 transition-all duration-300">
-              <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-2xl">
-                💬
-              </div>
-              <h3 className="font-semibold text-white mb-2">Chat</h3>
-              <p className="text-sm text-gray-400">Let's Talk</p>
-            </div>
+            ))}
           </div>
 
+          {/* Form card */}
           <div className="gradient-card p-8 md:p-12 rounded-3xl backdrop-blur-lg border border-white/20 hover:border-white/30 transition-all duration-500">
             <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="relative">
-                <label
-                  htmlFor="name"
-                  className="block text-lg font-medium mb-3 text-white"
-                >
+
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-lg font-medium mb-3 text-white">
                   Name *
                 </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus('name')}
-                    onBlur={handleBlur}
-                    placeholder="Enter Your Name"
-                    required
-                    className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none backdrop-blur-sm ${
-                      focusedField === 'name' 
-                        ? 'border-blue-400 shadow-lg shadow-blue-400/20' 
-                        : 'border-gray-600/50 hover:border-gray-500/70'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl opacity-0 transition-opacity duration-300 pointer-events-none"
-                       style={{ opacity: focusedField === 'name' ? 1 : 0 }}></div>
-                </div>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onFocus={() => setFocusedField('name')}
+                  onBlur={() => setFocusedField(null)}
+                  placeholder="Enter Your Name"
+                  required
+                  className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none backdrop-blur-sm ${
+                    focusedField === 'name'
+                      ? 'border-blue-400 shadow-lg shadow-blue-400/20'
+                      : 'border-gray-600/50 hover:border-gray-500/70'
+                  }`}
+                />
               </div>
 
-              <div className="relative">
-                <label
-                  htmlFor="email"
-                  className="block text-lg font-medium mb-3 text-white"
-                >
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-lg font-medium mb-3 text-white">
                   Email *
                 </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus('email')}
-                    onBlur={handleBlur}
-                    placeholder="Enter Your Email"
-                    required
-                    className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none backdrop-blur-sm ${
-                      focusedField === 'email' 
-                        ? 'border-purple-400 shadow-lg shadow-purple-400/20' 
-                        : 'border-gray-600/50 hover:border-gray-500/70'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-xl opacity-0 transition-opacity duration-300 pointer-events-none"
-                       style={{ opacity: focusedField === 'email' ? 1 : 0 }}></div>
-                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField(null)}
+                  placeholder="Enter Your Email"
+                  required
+                  className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none backdrop-blur-sm ${
+                    focusedField === 'email'
+                      ? 'border-purple-400 shadow-lg shadow-purple-400/20'
+                      : 'border-gray-600/50 hover:border-gray-500/70'
+                  }`}
+                />
               </div>
 
-              <div className="relative">
-                <label
-                  htmlFor="message"
-                  className="block text-lg font-medium mb-3 text-white"
-                >
+              {/* Message */}
+              <div>
+                <label htmlFor="message" className="block text-lg font-medium mb-3 text-white">
                   Message *
                 </label>
-                <div className="relative">
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    onFocus={() => handleFocus('message')}
-                    onBlur={handleBlur}
-                    placeholder="Enter Your Message"
-                    required
-                    rows={6}
-                    className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none resize-vertical backdrop-blur-sm ${
-                      focusedField === 'message' 
-                        ? 'border-pink-400 shadow-lg shadow-pink-400/20' 
-                        : 'border-gray-600/50 hover:border-gray-500/70'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-pink-400/20 to-orange-400/20 rounded-xl opacity-0 transition-opacity duration-300 pointer-events-none"
-                       style={{ opacity: focusedField === 'message' ? 1 : 0 }}></div>
-                </div>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  onFocus={() => setFocusedField('message')}
+                  onBlur={() => setFocusedField(null)}
+                  placeholder="Enter Your Message"
+                  required
+                  rows={6}
+                  className={`w-full px-6 py-4 rounded-xl text-base bg-gray-900/50 border-2 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none resize-vertical backdrop-blur-sm ${
+                    focusedField === 'message'
+                      ? 'border-pink-400 shadow-lg shadow-pink-400/20'
+                      : 'border-gray-600/50 hover:border-gray-500/70'
+                  }`}
+                />
               </div>
 
+              {/* Submit */}
               <div className="text-center">
                 <button
                   type="submit"
-                  className={`btn-gradient inline-flex items-center gap-3 px-10 py-4 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 group relative overflow-hidden ${
-                    status === 'success' ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 
-                    status === 'error' ? 'bg-gradient-to-r from-red-500 to-pink-500' : 
-                    'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
-                  } ${status === 'sending' ? 'cursor-not-allowed' : 'hover:shadow-lg hover:shadow-purple-500/30'}`}
                   disabled={status === "sending"}
+                  className={`btn-gradient inline-flex items-center gap-3 px-10 py-4 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 group relative overflow-hidden ${
+                    status === 'success' ? 'bg-gradient-to-r from-green-500 to-emerald-500' :
+                    status === 'error'   ? 'bg-gradient-to-r from-red-500 to-pink-500' :
+                                          'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                  } ${status === 'sending' ? 'cursor-not-allowed' : 'hover:shadow-lg hover:shadow-purple-500/30'}`}
                 >
-                  <span className="flex items-center gap-3">
-                    {getButtonIcon()}
-                    {getButtonText()}
-                  </span>
-                  
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+                  {getButtonIcon()}
+                  {getButtonText()}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12 pointer-events-none" />
                 </button>
               </div>
 
+              {/* Status messages */}
               {status === "success" && (
                 <div className="text-center p-4 bg-green-500/20 border border-green-400/30 rounded-xl backdrop-blur-sm animate-fade-in-up">
                   <div className="flex items-center justify-center gap-2 text-green-300 font-medium">
@@ -247,7 +215,7 @@ export default function Contact() {
                   </div>
                 </div>
               )}
-              
+
               {status === "error" && (
                 <div className="text-center p-4 bg-red-500/20 border border-red-400/30 rounded-xl backdrop-blur-sm animate-fade-in-up">
                   <div className="flex items-center justify-center gap-2 text-red-300 font-medium">
@@ -258,6 +226,7 @@ export default function Contact() {
                   </div>
                 </div>
               )}
+
             </form>
           </div>
         </div>

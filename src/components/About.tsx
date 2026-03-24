@@ -1,376 +1,246 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-// Liquid Morphing Animation Component
-const LiquidMorphing = () => {
+const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+    const fontSize = 12;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops: number[] = Array(columns).fill(1);
 
-    let time = 0;
-    const blobs: Array<{
-      x: number;
-      y: number;
-      baseRadius: number;
-      color: string;
-      speed: number;
-      phase: number;
-      opacity: number;
-    }> = [];
-
-    const createBlobs = () => {
-      blobs.length = 0;
-      const blobCount = 4;
-      
-      const colors = [
-        'rgba(99, 102, 241, 0.15)',
-        'rgba(139, 92, 246, 0.12)',
-        'rgba(59, 130, 246, 0.18)',
-        'rgba(168, 85, 247, 0.10)'
-      ];
-
-      for (let i = 0; i < blobCount; i++) {
-        blobs.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          baseRadius: 80 + Math.random() * 120,
-          color: colors[i % colors.length],
-          speed: 0.5 + Math.random() * 0.8,
-          phase: Math.random() * Math.PI * 2,
-          opacity: 0.3 + Math.random() * 0.4
-        });
-      }
-    };
-
-    createBlobs();
-
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-
-    const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      time += 0.008;
-
-      blobs.forEach((blob, index) => {
-        const baseX = canvas.width * (0.2 + 0.6 * ((index % 2) + 1) / 3);
-        const baseY = canvas.height * (0.3 + 0.4 * (index + 1) / 5);
-        
-        blob.x = baseX + Math.sin(time * blob.speed + blob.phase) * 100 +
-                 Math.cos(time * blob.speed * 0.7 + blob.phase) * 60;
-        blob.y = baseY + Math.cos(time * blob.speed + blob.phase) * 80 +
-                 Math.sin(time * blob.speed * 1.3 + blob.phase) * 40;
-
-        const dx = mouseX - blob.x;
-        const dy = mouseY - blob.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 200) {
-          const force = (200 - distance) / 200 * 0.5;
-          blob.x += dx * force * 0.05;
-          blob.y += dy * force * 0.05;
-        }
-
-        blob.baseRadius = 80 + Math.sin(time * 2 + blob.phase) * 30;
-
-        blob.x = Math.max(50, Math.min(canvas.width - 50, blob.x));
-        blob.y = Math.max(50, Math.min(canvas.height - 50, blob.y));
+      ctx.fillStyle = '#00ff4120';
+      ctx.font = `${fontSize}px monospace`;
+      drops.forEach((y, i) => {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
       });
-
-      blobs.forEach(blob => {
-        const gradient = ctx.createRadialGradient(
-          blob.x, blob.y, 0,
-          blob.x, blob.y, blob.baseRadius
-        );
-        
-        const color = blob.color.match(/\d+\.?\d*/g);
-        if (color) {
-          gradient.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${blob.opacity})`);
-          gradient.addColorStop(0.7, `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${blob.opacity * 0.4})`);
-          gradient.addColorStop(1, 'transparent');
-        }
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(blob.x, blob.y, blob.baseRadius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      requestAnimationFrame(animate);
     };
 
-    animate();
-
-    return () => {
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', resizeCanvas);
-    };
+    const interval = setInterval(draw, 50);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className="absolute inset-0 w-full h-full opacity-20"
       style={{ zIndex: 1 }}
     />
   );
 };
 
+const TypingText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const [displayed, setDisplayed] = useState('');
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(startTimer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayed(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 35);
+    return () => clearInterval(interval);
+  }, [started, text]);
+
+  return <span>{displayed}<span className="animate-pulse">▋</span></span>;
+};
+
 export default function About() {
   const skills = {
-    coreSkills: ["Python", "Linux", "Bash", "MySQL"],
-    securityTools: ["Nmap", "Nikto", "Wireshark"],
-    otherTools: ["RStudio"]
-  };
+    'Core Skills': [
+      { name: 'Python', level: 65 },
+      { name: 'C++', level: 15 },
+      { name: 'Linux', level: 70 },
+      { name: 'Bash', level: 70 },
+      { name: 'MySQL', level: 60 },
+    ],
+    'Security Tools': [
+      { name: 'Nmap', level: 70 },
+      { name: 'Nikto', level: 65 },
+      { name: 'Wireshark', level: 60 },
+    ],
+      'Data & Design': [
+    { name: 'Tableau', level: 55 },
+    { name: 'RStudio', level: 55 },
+    { name: 'FreeCAD', level: 10 },
+  ],
+  'Game Dev': [
+    { name: 'Unreal Engine 5', level: 15 },
+  ],
+};
 
-  const renderSkillCategory = (categorySkills: string[], categoryName: string) => (
-    <div>
-      <h4 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: 'white' }}>
-        {categoryName}
-      </h4>
-      <div className="flex flex-wrap gap-4">
-        {categorySkills.map((skill) => (
-          <div
-            key={skill}
-            className="group/skill px-6 py-3 rounded-2xl text-lg font-medium cursor-default transition-all duration-500 hover:scale-110 hover:-translate-y-2 border border-opacity-30 relative overflow-hidden"
-            style={{
-              backgroundColor: 'var(--color-bg-secondary)',
-              color: 'var(--color-text-primary)',
-              borderColor: 'var(--color-border)',
-              boxShadow: 'var(--shadow-sm)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
-              e.currentTarget.style.color = 'white';
-              e.currentTarget.style.borderColor = 'var(--color-accent-blue)';
-              e.currentTarget.style.boxShadow = '0 10px 30px rgba(99, 102, 241, 0.3)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
-              e.currentTarget.style.color = 'var(--color-text-primary)';
-              e.currentTarget.style.borderColor = 'var(--color-border)';
-              e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-            }}
-          >
-            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent transform -translate-x-full group-hover/skill:translate-x-full transition-transform duration-700"></div>
-            </div>
-            <span className="relative z-10">{skill}</span>
-            <span className="ml-2 opacity-50 group-hover/skill:opacity-100 group-hover/skill:rotate-12 group-hover/skill:scale-125 transition-all duration-300 relative z-10 inline-block">
-              ⚡
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  const terminalLines = [
+    { cmd: 'whoami', out: 'emre_eren — CS Student @ BSBI Berlin' },
+    { cmd: 'cat origin.txt', out: 'Born in Kuwait 🇰🇼 · Roots in Turkey 🇹🇷 · Based in Berlin 🇩🇪' },
+    { cmd: 'cat interests.txt', out: 'Cybersecurity · Software Dev · Game Dev' },
+    { cmd: 'echo $FOCUS', out: 'Breaking things to understand them. Then fixing them better.' },
+  ];
 
   return (
-    <section id="about" className="gradient-about sec-pad relative overflow-hidden" style={{ marginTop: '-160px', paddingTop: '10px' }}>
-      <LiquidMorphing />
-      
-      <div 
-        className="absolute top-20 right-10 w-20 h-20 rounded-full opacity-10 animate-pulse"
-        style={{ 
-          background: 'linear-gradient(45deg, var(--color-accent-blue), transparent)',
-          zIndex: 2
+    <section id="about" className="sec-pad relative overflow-hidden scroll-mt-28" style={{ background: '#020c02' }}>
+      <MatrixRain />
+
+      {/* Subtle grid overlay */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: 'linear-gradient(#00ff41 1px, transparent 1px), linear-gradient(90deg, #00ff41 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          zIndex: 2,
         }}
-      ></div>
-      <div 
-        className="absolute bottom-32 left-16 w-16 h-16 rounded-full opacity-8 animate-pulse"
-        style={{ 
-          background: 'linear-gradient(-45deg, var(--color-accent-blue), transparent)',
-          animationDelay: '1s',
-          zIndex: 2
-        }}
-      ></div>
+      />
 
       <div className="main-container relative z-10">
-        <h2 className="heading-sec animate-fade-in-up">
-          <span>About Me</span>
-        </h2>
 
-        <div className="grid md:grid-cols-2 gap-12 mt-12">
-          <div className="animate-fade-in-left">
-            <div 
-              className="backdrop-blur-lg rounded-3xl p-8 border border-opacity-30 hover:border-opacity-50 transition-all duration-500 hover:scale-[1.02] group relative overflow-hidden"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'var(--color-border)',
-                boxShadow: 'var(--shadow-md)'
-              }}
-            >
-              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div 
-                  className="absolute inset-0 rounded-3xl animate-pulse"
-                  style={{
-                    background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1))',
-                    filter: 'blur(1px)'
-                  }}
-                ></div>
-              </div>
-
-              <h3 className="text-3xl font-bold mb-6 relative z-10" style={{ color: 'var(--color-text-primary)' }}>
-                Get to know me
-              </h3>
-              
-              <div className="space-y-4 relative z-10">
-                <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
-                  Hey! I'm <strong style={{ color: 'var(--color-accent-blue)' }}>Emre Eren</strong>. 
-                  I'm studying Computer Science in BSBI. I was born in Kuwait and have my roots in Turkey. 
-                </p>
-                
-                <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
-                  I'm mainly interested in{' '}
-                  <strong style={{ color: 'var(--color-accent-blue)' }}>Cybersecurity</strong>, 
-                  but I also like software development, ML, and game development.
-                </p>
-                
-                <p className="text-primary leading-relaxed hover:text-opacity-100 transition-all duration-300">
-                  I enjoy turning ideas into real projects and bringing them to life. I like figuring out 
-                  how things work, writing code, finding bugs, or just making things better.
-                </p>
-              </div>
-
-              <div className="mt-8 grid grid-cols-2 gap-6 relative z-10">
-                <div className="text-center group/stat cursor-pointer p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
-                  <div 
-                    className="text-2xl font-bold mb-1 group-hover/stat:scale-110 transition-transform duration-300"
-                    style={{ color: 'var(--color-accent-blue)' }}
-                  >
-                    2nd Year
-                  </div>
-                  <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-                    👨🏻‍🎓
-                  </div>
-                  <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-2 transform scale-0 group-hover/stat:scale-100 transition-transform duration-500"></div>
-                </div>
-                <div className="text-center group/stat cursor-pointer p-4 rounded-2xl transition-all duration-300 hover:bg-white/5">
-                  <div 
-                    className="text-2xl font-bold mb-1 group-hover/stat:scale-110 transition-transform duration-300"
-                    style={{ color: 'var(--color-accent-blue)' }}
-                  >
-                    Berlin
-                  </div>
-                  <div className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-                    Current Location
-                  </div>
-                  <div className="w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-2 transform scale-0 group-hover/stat:scale-100 transition-transform duration-500"></div>
-                </div>
-              </div>
-            </div>
+        {/* Section Header */}
+        <div className="mb-16 animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-green-400 font-mono text-sm opacity-70">root@portfolio:~$</span>
+            <span className="text-green-300 font-mono text-sm">cat about.md</span>
           </div>
-
-          <div className="animate-fade-in-right">
-            <div 
-              className="backdrop-blur-lg rounded-3xl p-8 border border-opacity-30 hover:border-opacity-50 transition-all duration-500 hover:scale-[1.02] group relative overflow-hidden"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderColor: 'var(--color-border)',
-                boxShadow: 'var(--shadow-md)'
-              }}
-            >
-              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div 
-                  className="absolute inset-0 rounded-3xl animate-pulse"
-                  style={{
-                    background: 'linear-gradient(-45deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1))',
-                    filter: 'blur(1px)',
-                    animationDelay: '0.5s'
-                  }}
-                ></div>
-              </div>
-
-              <h3 className="text-3xl font-bold mb-6 relative z-10" style={{ color: 'var(--color-text-primary)' }}>
-                My Skills
-              </h3>
-              
-              <div className="space-y-4 mb-8 relative z-10">
-                <p className="text-primary hover:text-opacity-100 transition-all duration-300">
-                  Here are the technologies and tools I work with:
-                </p>
-              </div>
-
-              <div className="space-y-6 relative z-10">
-                {renderSkillCategory(skills.coreSkills, "Core Skills")}
-                {renderSkillCategory(skills.securityTools, "Security Tools")}
-                {renderSkillCategory(skills.otherTools, "Other Tools")}
-              </div>
-
-              <div className="mt-8 p-6 rounded-2xl relative overflow-hidden group/cta" style={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500"></div>
-                <p className="text-sm text-center relative z-10 group-hover/cta:text-white transition-colors duration-300" style={{ color: 'var(--color-text-secondary)' }}>
-                  Always learning and expanding my skillset! 🚀
-                </p>
-              </div>
-            </div>
-          </div>
+          <h2 className="text-5xl md:text-6xl font-black font-mono" style={{ color: '#00ff41', textShadow: '0 0 30px #00ff4160' }}>
+            {'<about_me />'}
+          </h2>
+          <div className="w-32 h-px mt-4" style={{ background: 'linear-gradient(90deg, #00ff41, transparent)' }} />
         </div>
 
-        <div className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <div 
-            className="text-center backdrop-blur-lg rounded-3xl p-8 border border-opacity-30 hover:border-opacity-50 transition-all duration-500 hover:scale-[1.01] group relative overflow-hidden"
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              borderColor: 'var(--color-border)',
-              boxShadow: 'var(--shadow-md)'
-            }}
-          >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-1000">
-              <div className="absolute inset-0 bg-gradient-radial from-blue-500/5 via-purple-500/5 to-transparent animate-pulse"></div>
+        <div className="grid lg:grid-cols-2 gap-10">
+
+          {/* LEFT — Terminal Block */}
+          <div className="animate-fade-in-left space-y-6">
+
+            {/* Terminal window */}
+            <div className="rounded-xl overflow-hidden border border-green-900/50" style={{ background: '#050f05', boxShadow: '0 0 40px #00ff4115' }}>
+              {/* Title bar */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-green-900/40" style={{ background: '#0a1a0a' }}>
+                <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                <div className="w-3 h-3 rounded-full bg-green-500/70" />
+                <span className="ml-3 text-xs font-mono text-green-600">emre@portfolio ~ zsh</span>
+              </div>
+
+              {/* Terminal content */}
+              <div className="p-6 space-y-4 font-mono text-sm">
+                {terminalLines.map((line, i) => (
+                  <div key={i}>
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-500">❯</span>
+                      <span className="text-green-300">{line.cmd}</span>
+                    </div>
+                    <div className="mt-1 pl-5 text-green-400/80 leading-relaxed">{line.out}</div>
+                  </div>
+                ))}
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-green-500">❯</span>
+                  <TypingText text="ls -la current_status/" delay={800} />
+                </div>
+              </div>
             </div>
 
-            <h3 className="text-2xl font-bold mb-4 relative z-10" style={{ color: 'var(--color-text-primary)' }}>
-              Current Focus
-            </h3>
-            <div className="flex flex-wrap justify-center gap-6 text-lg relative z-10">
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-4">
               {[
-                { icon: '🛡️', text: 'Cybersecurity', delay: '0s' },
-                { icon: '💻', text: 'Software Development', delay: '0.1s' },
-                { icon: '🎮', text: 'Game Development', delay: '0.2s' }
-              ].map((focus) => (
-                <span 
-                  key={focus.text}
-                  className="px-6 py-3 rounded-2xl border transition-all duration-500 hover:scale-110 hover:-translate-y-1 cursor-pointer group/focus relative overflow-hidden"
-                  style={{ 
-                    color: 'var(--color-accent-blue)', 
-                    borderColor: 'var(--color-accent-blue)',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    animationDelay: focus.delay
-                  }}
+                { val: '2nd', label: 'Year', icon: '🎓' },
+                { val: 'Berlin', label: 'Location', icon: '📍' },
+                { val: '5+', label: 'Certs', icon: '🏆' },
+              ].map(({ val, label, icon }) => (
+                <div
+                  key={label}
+                  className="rounded-xl p-4 text-center border border-green-900/40 hover:border-green-500/40 transition-all duration-300 group cursor-default"
+                  style={{ background: '#050f05' }}
                 >
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover/focus:opacity-100 transition-opacity duration-300"></div>
-                  <span className="relative z-10">
-                    <span className="inline-block group-hover/focus:rotate-12 group-hover/focus:scale-125 transition-transform duration-300 mr-2">
-                      {focus.icon}
-                    </span>
-                    {focus.text}
-                  </span>
+                  <div className="text-xl mb-1">{icon}</div>
+                  <div className="text-lg font-black font-mono" style={{ color: '#00ff41' }}>{val}</div>
+                  <div className="text-xs font-mono text-green-700">{label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Focus tags */}
+            <div className="flex flex-wrap gap-3">
+              {['🛡️ Cybersecurity', '💻 Software Dev', '🎮 Game Dev'].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-2 rounded-lg text-sm font-mono border border-green-800/50 hover:border-green-400/60 hover:shadow-lg transition-all duration-300 cursor-default"
+                  style={{ color: '#00ff41', background: 'rgba(0,255,65,0.05)', textShadow: '0 0 8px #00ff4140' }}
+                >
+                  {tag}
                 </span>
               ))}
+            </div>
+          </div>
+
+          {/* RIGHT — Skills */}
+          <div className="animate-fade-in-right space-y-6">
+            <div className="rounded-xl border border-green-900/50 overflow-hidden" style={{ background: '#050f05', boxShadow: '0 0 40px #00ff4110' }}>
+              {/* Title bar */}
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-green-900/40" style={{ background: '#0a1a0a' }}>
+                <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                <div className="w-3 h-3 rounded-full bg-green-500/70" />
+                <span className="ml-3 text-xs font-mono text-green-600">skills.txt — read only</span>
+              </div>
+
+              <div className="p-6 space-y-8 font-mono">
+                {Object.entries(skills).map(([category, items]) => (
+                  <div key={category}>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-green-600 text-xs">##</span>
+                      <span className="text-green-400 text-xs uppercase tracking-widest">{category}</span>
+                      <div className="flex-1 h-px bg-green-900/50" />
+                    </div>
+                    <div className="space-y-3">
+                      {items.map(({ name, level }) => (
+                        <div key={name}>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-green-300 text-sm">{name}</span>
+                            <span className="text-green-600 text-xs">{level}%</span>
+                          </div>
+                          <div className="h-2 rounded-full overflow-hidden" style={{ background: '#0a1a0a' }}>
+                            <div
+                              className="h-full rounded-full transition-all duration-1000"
+                              style={{
+                                width: `${level}%`,
+                                background: 'linear-gradient(90deg, #00ff41, #00cc33)',
+                                boxShadow: '0 0 8px #00ff4160',
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="pt-2 border-t border-green-900/40">
+                  <p className="text-green-700 text-xs text-center">
+                    // always_learning = true · skills.push(new_tech) 🚀
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

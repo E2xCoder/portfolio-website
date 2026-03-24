@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import Script from 'next/script'; // ✅ eklendi
+import Script from 'next/script';
+import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,11 +19,10 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>
+        <Providers>
           {children}
-        </ThemeProvider>
+        </Providers>
 
-        {/* ✅ Google Analytics (GA4) */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-M69F2N90WW"

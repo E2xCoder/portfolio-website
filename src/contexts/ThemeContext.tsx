@@ -11,29 +11,54 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Güvenli localStorage helper
+const safeStorage = {
+  get: (key: string): string | null => {
+    try {
+      if (typeof window === 'undefined') return null;
+      if (typeof window.localStorage === 'undefined') return null;
+      if (typeof window.localStorage.getItem !== 'function') return null;
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  set: (key: string, value: string): void => {
+    try {
+      if (typeof window === 'undefined') return;
+      if (typeof window.localStorage === 'undefined') return;
+      if (typeof window.localStorage.setItem !== 'function') return;
+      window.localStorage.setItem(key, value);
+    } catch {
+      // sessizce geç
+    }
+  }
+};
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    setMounted(true);
+    const savedTheme = safeStorage.get('theme') as Theme | null;
     if (savedTheme) {
       setTheme(savedTheme);
     } else {
-      // Check system preference
-      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark' : 'light';
       setTheme(systemPreference);
     }
   }, []);
 
   useEffect(() => {
-    // Apply theme to document
+    if (!mounted) return;
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    safeStorage.set('theme', theme);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (

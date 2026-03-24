@@ -104,6 +104,7 @@ export default function Hero() {
       <ParticleSystem />
       
       <section 
+        id="home"
         className="min-h-screen relative pt-28 pb-32 overflow-hidden"
         style={{
           background: 'var(--gradient-hero)',
