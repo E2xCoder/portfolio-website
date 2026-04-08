@@ -172,6 +172,15 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 export default function Projects() {
   const projects: Project[] = [
     {
+      title: 'Linux Firewall Automation',
+      description: 'Simple firewall management tool that automates UFW commands on Linux systems with CLI interface for managing ports, blocking IPs and firewall rules.',
+      image: 'https://i.ibb.co/8DCD94Ck/1775337586117.jpg',
+      link: 'https://github.com/E2xCoder/linux-firewall-automation',
+      tech: ['Python', 'Linux', 'UFW', 'CLI Tool'],
+      status: 'ACTIVE',
+      year: '2026',
+    },
+    {
       title: 'Password Strength Analyzer',
       description: 'Analyzes password complexity with real-time feedback, supports MD5, SHA-256, NTLM, bcrypt hash types and color-coded terminal output.',
       image: 'https://i.ibb.co/1JTc3jNQ/PassChecker.png',

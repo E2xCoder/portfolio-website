@@ -102,7 +102,7 @@ export default function Footer() {
           style={{ borderColor: 'var(--color-bg-secondary)' }}
         >
           <p className="text-center" style={{ color: 'var(--color-text-secondary)' }}>
-            © 2025 Emre Eren. All rights reserved.
+            © 2026 Emre Eren. All rights reserved.
           </p>
         </div>
       </div>

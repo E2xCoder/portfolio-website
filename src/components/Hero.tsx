@@ -112,11 +112,12 @@ export default function Hero() {
           animation: 'gradientShift 15s ease infinite'
         }}
       >
+        {/* Subtle background orbs - minimal */}
         <div 
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl animate-pulse"
           style={{ 
             backgroundColor: 'var(--color-bg-secondary)',
-            opacity: 0.2 
+            opacity: 0.08 
           }}
         ></div>
         <div 
@@ -124,22 +125,15 @@ export default function Hero() {
           style={{ 
             animationDelay: '2s',
             backgroundColor: 'var(--color-bg-tertiary)',
-            opacity: 0.2 
-          }}
-        ></div>
-        <div 
-          className="absolute top-1/2 left-3/4 w-32 h-32 rounded-full blur-xl animate-pulse" 
-          style={{ 
-            animationDelay: '4s',
-            backgroundColor: 'var(--color-accent-blue)',
-            opacity: 0.15 
+            opacity: 0.06 
           }}
         ></div>
 
         <div className="main-container relative z-10">
-          <div className="text-center max-w-5xl mx-auto">
-            <div className="mb-8 animate-fade-in-up opacity-0" style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}>
-              <h1 className="text-5xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Main headline - ESKI YAZILAR KORUNUYOR */}
+            <div className="mb-12 animate-fade-in-up opacity-0" style={{ animation: 'fadeInUp 0.6s ease-out forwards' }}>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
                 <span style={{ color: 'var(--color-text-primary)' }}>Hey there — I'm </span>
                 <span 
                   className={`emre-highlight relative inline-block cursor-pointer ${isHovering ? 'hovering' : ''}`}
@@ -177,7 +171,7 @@ export default function Hero() {
                   color: 'var(--color-text-secondary)'
                 }}
               >
-                 Thanks for stopping by!
+                Thanks for stopping by!
               </p>
 
               <div 
@@ -207,74 +201,68 @@ export default function Hero() {
               </div>
             </div>
 
+            {/* Sade welcome card */}
             <div className="mb-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               <div 
-                className="group relative overflow-hidden rounded-2xl p-8 backdrop-blur-lg border max-w-4xl mx-auto transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl p-8 backdrop-blur-lg border max-w-3xl mx-auto transition-all duration-500"
                 style={{
-                  backgroundColor: 'var(--color-bg-secondary)',
+                  backgroundColor: 'rgba(20, 20, 30, 0.4)',
                   borderColor: 'var(--color-border)',
-                  opacity: 0.9
+                  borderWidth: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg-tertiary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-accent-blue)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-border)';
                 }}
               >
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"
                   style={{
-                    background: `linear-gradient(135deg, var(--color-accent-blue) 0%, transparent 100%)`,
-                    opacity: 0.05
+                    background: `linear-gradient(135deg, var(--color-accent-blue) 0%, transparent 100%)`
                   }}
                 ></div>
                 
                 <div className="relative z-10">
                   <h2 
-                    className="text-2xl md:text-3xl font-bold"
+                    className="text-2xl md:text-3xl font-bold mb-4"
                     style={{ color: 'var(--color-text-primary)' }}
                   >
                     Welcome to my digital world! 🌟
                   </h2>
                   <p 
-                    className="text-lg md:text-xl mt-4 leading-relaxed"
+                    className="text-lg md:text-xl leading-relaxed"
                     style={{ color: 'var(--color-text-secondary)' }}
                   >
                     Explore my journey in software development and cybersecurity
                   </p>
                 </div>
-
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div 
-                    className="absolute inset-0 rounded-2xl animate-gradient-border"
-                    style={{
-                      background: `linear-gradient(45deg, var(--color-accent-blue), var(--color-accent-purple), var(--color-accent-blue))`,
-                      opacity: 0.3
-                    }}
-                  ></div>
-                </div>
               </div>
             </div>
 
+            {/* CTA Button */}
             <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
               <button
                 onClick={() => {
                   handleSmoothScroll({ preventDefault: () => {} } as React.MouseEvent<HTMLAnchorElement, MouseEvent>, "#projects");
                 }}
-                className="inline-flex items-center gap-3 group/btn text-lg px-8 py-4 rounded-full border transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center gap-3 group/btn text-lg px-8 py-4 rounded-full border transition-all duration-300 cursor-pointer hover:shadow-lg"
                 style={{
                   backgroundColor: 'var(--color-bg-secondary)',
                   color: 'var(--color-text-primary)',
-                  borderColor: 'var(--color-border)'
+                  borderColor: 'var(--color-border)',
+                  borderWidth: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
-                  e.currentTarget.style.borderColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.color = '#fff';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-bg-secondary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-border)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--color-text-primary)';
                 }}
               >
                 <span>Explore My Projects</span>
@@ -302,15 +290,16 @@ export default function Hero() {
                 className="w-16 h-16 flex items-center justify-center rounded-xl backdrop-blur-lg border transition-all duration-300 hover:scale-110"
                 style={{
                   backgroundColor: 'var(--color-bg-secondary)',
-                  borderColor: 'var(--color-border)'
+                  borderColor: 'var(--color-border)',
+                  borderWidth: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
-                  e.currentTarget.style.borderColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-accent-blue)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-bg-secondary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-border)';
                 }}
               >
                 <div 
@@ -335,15 +324,16 @@ export default function Hero() {
                 className="w-16 h-16 flex items-center justify-center rounded-xl backdrop-blur-lg border transition-all duration-300 hover:scale-110"
                 style={{
                   backgroundColor: 'var(--color-bg-secondary)',
-                  borderColor: 'var(--color-border)'
+                  borderColor: 'var(--color-border)',
+                  borderWidth: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent-blue)';
-                  e.currentTarget.style.borderColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-accent-blue)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-accent-blue)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)';
-                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                  (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-bg-secondary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-border)';
                 }}
               >
                 <div 
@@ -371,7 +361,8 @@ export default function Hero() {
                 className="w-16 h-16 flex items-center justify-center rounded-xl backdrop-blur-lg border transition-all duration-300 hover:scale-110"
                 style={{
                   backgroundColor: 'var(--color-bg-secondary)',
-                  borderColor: 'var(--color-border)'
+                  borderColor: 'var(--color-border)',
+                  borderWidth: '0.5px'
                 }}
               >
                 <FaLinkedin
@@ -392,7 +383,8 @@ export default function Hero() {
                 className="w-16 h-16 flex items-center justify-center rounded-xl backdrop-blur-lg border transition-all duration-300 hover:scale-110"
                 style={{
                   backgroundColor: 'var(--color-bg-secondary)',
-                  borderColor: 'var(--color-border)'
+                  borderColor: 'var(--color-border)',
+                  borderWidth: '0.5px'
                 }}
               >
                 <FaGithub
@@ -403,31 +395,6 @@ export default function Hero() {
               </div>
             </a>
           </div>
-
-          <div 
-            className="absolute top-20 right-10 w-32 h-32 rounded-full blur-2xl animate-pulse opacity-60" 
-            style={{ 
-              animationDelay: '1s',
-              background: `linear-gradient(45deg, var(--color-accent-purple), var(--color-accent-blue))`,
-              opacity: 0.1
-            }}
-          ></div>
-          <div 
-            className="absolute bottom-32 left-20 w-24 h-24 rounded-full blur-xl animate-pulse opacity-40" 
-            style={{ 
-              animationDelay: '2s',
-              background: `linear-gradient(45deg, var(--color-accent-cyan), var(--color-accent-pink))`,
-              opacity: 0.1
-            }}
-          ></div>
-          <div 
-            className="absolute top-1/3 right-1/4 w-16 h-16 rounded-full blur-lg animate-pulse opacity-30" 
-            style={{ 
-              animationDelay: '3s',
-              background: `linear-gradient(45deg, var(--color-accent-blue), var(--color-accent-purple))`,
-              opacity: 0.1
-            }}
-          ></div>
         </div>
 
         <style jsx>{`
@@ -450,9 +417,9 @@ export default function Hero() {
             right: -10px;
             bottom: -5px;
             background: linear-gradient(135deg, 
-              rgba(99, 102, 241, 0.3) 0%, 
-              rgba(139, 92, 246, 0.3) 50%, 
-              rgba(6, 182, 212, 0.3) 100%
+              rgba(99, 102, 241, 0.2) 0%, 
+              rgba(139, 92, 246, 0.2) 50%, 
+              rgba(6, 182, 212, 0.2) 100%
             );
             border-radius: 15px;
             filter: blur(20px);
@@ -462,11 +429,11 @@ export default function Hero() {
           
           @keyframes emrePulse {
             0%, 100% { 
-              opacity: 0.4;
+              opacity: 0.3;
               transform: scale(0.95);
             }
             50% { 
-              opacity: 0.8;
+              opacity: 0.6;
               transform: scale(1.05);
             }
           }

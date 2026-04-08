@@ -71,7 +71,7 @@ const TypingText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
 export default function About() {
   const skills = {
     'Core Skills': [
-      { name: 'Python', level: 65 },
+      { name: 'Python', level: 60 },
       { name: 'C++', level: 15 },
       { name: 'Linux', level: 70 },
       { name: 'Bash', level: 70 },
@@ -79,7 +79,7 @@ export default function About() {
     ],
     'Security Tools': [
       { name: 'Nmap', level: 70 },
-      { name: 'Nikto', level: 65 },
+      { name: 'Nikto', level: 60 },
       { name: 'Wireshark', level: 60 },
     ],
       'Data & Design': [
@@ -93,10 +93,10 @@ export default function About() {
 };
 
   const terminalLines = [
-    { cmd: 'whoami', out: 'emre_eren — CS Student @ BSBI Berlin' },
-    { cmd: 'cat origin.txt', out: 'Born in Kuwait 🇰🇼 · Roots in Turkey 🇹🇷 · Based in Berlin 🇩🇪' },
-    { cmd: 'cat interests.txt', out: 'Cybersecurity · Software Dev · Game Dev' },
-    { cmd: 'echo $FOCUS', out: 'Breaking things to understand them. Then fixing them better.' },
+    { cmd: 'whoami', out: 'Emre Eren — CS Student @ BSBI Berlin' },
+    { cmd: 'cat origin.txt', out: 'Roots in Turkey 🇹🇷 · Raised in Kuwait 🇰🇼 · Living in Berlin 🇩🇪' },
+    { cmd: 'cat interests.txt', out: 'Cybersecurity • Software Dev • Game Dev' },
+    { cmd: 'echo $FOCUS', out: 'Breaking things to understand them. Fixing them better.' },
   ];
 
   return (
