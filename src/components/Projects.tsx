@@ -172,6 +172,15 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 export default function Projects() {
   const projects: Project[] = [
     {
+      title: 'FitTrack',
+      description: 'Full-stack fitness & nutrition tracking web app with user authentication, workout logging, and progress monitoring. Features a clean dashboard to track daily activity and health goals.',
+      image: 'https://opengraph.githubassets.com/fe4bfd2c14c0e8a2aad0aea100432bceb8dd444347f35be0a4e578654873e3aa/E2xCoder/fittrack',
+      link: 'https://github.com/E2xCoder/fittrack',
+      tech: ['Next.js', 'TypeScript', 'Prisma', 'Vercel'],
+      status: 'ACTIVE',
+      year: '2026',
+    },
+    {
       title: 'Linux Firewall Automation',
       description: 'Simple firewall management tool that automates UFW commands on Linux systems with CLI interface for managing ports, blocking IPs and firewall rules.',
       image: 'https://i.ibb.co/8DCD94Ck/1775337586117.jpg',
