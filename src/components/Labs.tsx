@@ -265,7 +265,7 @@ export default function Labs() {
       link: "https://drive.google.com/file/d/1ak-hfGKl8mBTH-sZKpNWIYe17VgR_GSh/view?usp=drive_link",
       buttonText: "View Certificate",
       provider: " Codeacademy",
-      category: "Cybersecurity / Network Scanning",
+      category: "Cybersecurity",
       skills: ["Lua", "NSE", "Network Scanning", "Linux CL"]
     },
   ];
