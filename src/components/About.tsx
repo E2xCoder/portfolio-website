@@ -69,28 +69,12 @@ const TypingText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
 };
 
 export default function About() {
-  const skills = {
-    'Core Skills': [
-      { name: 'Python', level: 60 },
-      { name: 'C++', level: 15 },
-      { name: 'Linux', level: 70 },
-      { name: 'Bash', level: 70 },
-      { name: 'MySQL', level: 60 },
-    ],
-    'Security Tools': [
-      { name: 'Nmap', level: 70 },
-      { name: 'Nikto', level: 60 },
-      { name: 'Wireshark', level: 60 },
-    ],
-      'Data & Design': [
-    { name: 'Tableau', level: 55 },
-    { name: 'RStudio', level: 55 },
-    { name: 'FreeCAD', level: 10 },
-  ],
-  'Game Dev': [
-    { name: 'Unreal Engine 5', level: 15 },
-  ],
-};
+  const skills: Record<string, string[]> = {
+    'Core Skills': ['Python', 'C++', 'Linux', 'Bash', 'MySQL'],
+    'Security Tools': ['Nmap', 'Nikto', 'Wireshark'],
+    'Data & Design': ['Tableau', 'RStudio', 'FreeCAD'],
+    'Game Dev': ['Unreal Engine 5'],
+  };
 
   const terminalLines = [
     { cmd: 'whoami', out: 'Emre Eren — CS Student @ BSBI Berlin' },
@@ -212,24 +196,15 @@ export default function About() {
                       <span className="text-green-400 text-xs uppercase tracking-widest">{category}</span>
                       <div className="flex-1 h-px bg-green-900/50" />
                     </div>
-                    <div className="space-y-3">
-                      {items.map(({ name, level }) => (
-                        <div key={name}>
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-green-300 text-sm">{name}</span>
-                            <span className="text-green-600 text-xs">{level}%</span>
-                          </div>
-                          <div className="h-2 rounded-full overflow-hidden" style={{ background: '#0a1a0a' }}>
-                            <div
-                              className="h-full rounded-full transition-all duration-1000"
-                              style={{
-                                width: `${level}%`,
-                                background: 'linear-gradient(90deg, #00ff41, #00cc33)',
-                                boxShadow: '0 0 8px #00ff4160',
-                              }}
-                            />
-                          </div>
-                        </div>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map((name) => (
+                        <span
+                          key={name}
+                          className="px-3 py-1 rounded-full text-xs font-mono border border-green-800/60 hover:border-green-400/70 transition-all duration-200 cursor-default"
+                          style={{ color: '#00ff41', background: 'rgba(0,255,65,0.06)', textShadow: '0 0 6px #00ff4130' }}
+                        >
+                          {name}
+                        </span>
                       ))}
                     </div>
                   </div>
