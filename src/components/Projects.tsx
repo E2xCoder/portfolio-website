@@ -174,7 +174,7 @@ export default function Projects() {
     {
       title: 'FitTrack',
       description: 'Full-stack fitness & nutrition tracking web app with user authentication, workout logging, and progress monitoring. Features a clean dashboard to track daily activity and health goals.',
-      image: 'https://opengraph.githubassets.com/fe4bfd2c14c0e8a2aad0aea100432bceb8dd444347f35be0a4e578654873e3aa/E2xCoder/fittrack',
+      image: '/fittrack.png',
       link: 'https://github.com/E2xCoder/fittrack',
       tech: ['Next.js', 'TypeScript', 'Prisma', 'Vercel'],
       status: 'ACTIVE',
