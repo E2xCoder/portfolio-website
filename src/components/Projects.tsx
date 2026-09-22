@@ -9,8 +9,14 @@ type Project = {
   image: string;
   link: string;
   tech: string[];
-  status: 'ACTIVE' | 'ARCHIVED';
+  status: 'ACTIVE' | 'ONGOING' | 'ARCHIVED';
   year: string;
+};
+
+const statusColor = (status: Project['status']) => {
+  if (status === 'ACTIVE') return '#4ade80';
+  if (status === 'ONGOING') return '#fbbf24';
+  return '#94a3b8';
 };
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
@@ -91,9 +97,9 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
             <div
               className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ background: project.status === 'ACTIVE' ? '#4ade80' : '#94a3b8' }}
+              style={{ background: statusColor(project.status) }}
             />
-            <span className="text-xs font-medium" style={{ color: project.status === 'ACTIVE' ? '#4ade80' : '#94a3b8' }}>
+            <span className="text-xs font-medium" style={{ color: statusColor(project.status) }}>
               {project.status}
             </span>
           </div>
@@ -171,6 +177,24 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
 export default function Projects() {
   const projects: Project[] = [
+    {
+      title: 'Roamora',
+      description: 'AI-powered autonomous trip planner that researches destinations and builds full multi-day itineraries — factoring in opening hours, live price research, weather, hiking trails, and restaurant picks using real map and search data.',
+      image: 'https://opengraph.githubassets.com/1/E2xCoder/roamora',
+      link: 'https://github.com/E2xCoder/roamora',
+      tech: ['Next.js', 'TypeScript', 'Prisma', 'Ollama'],
+      status: 'ONGOING',
+      year: '2026',
+    },
+    {
+      title: 'SentinelAI',
+      description: 'AI-assisted security log analysis and automated response tool for Linux. Parses logs in real time, runs rule-based and ML anomaly detection, enriches alerts with threat intel, and can trigger firewall responses automatically.',
+      image: 'https://opengraph.githubassets.com/1/E2xCoder/SentinelAI',
+      link: 'https://github.com/E2xCoder/SentinelAI',
+      tech: ['Python', 'Cybersecurity', 'Machine Learning', 'Automation'],
+      status: 'ONGOING',
+      year: '2026',
+    },
     {
       title: 'FitTrack',
       description: 'Full-stack fitness & nutrition tracking web app with user authentication, workout logging, and progress monitoring. Features a clean dashboard to track daily activity and health goals.',
