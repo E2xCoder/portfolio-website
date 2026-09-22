@@ -11,6 +11,7 @@ type Project = {
   tech: string[];
   status: 'ACTIVE' | 'ONGOING' | 'ARCHIVED';
   year: string;
+  hidden?: boolean;
 };
 
 const statusColor = (status: Project['status']) => {
@@ -239,6 +240,7 @@ export default function Projects() {
       tech: ['Python', 'OOP', 'Class Design'],
       status: 'ARCHIVED',
       year: '2024',
+      hidden: true,
     },
   ];
 
@@ -272,7 +274,7 @@ export default function Projects() {
 
         {/* Cards */}
         <div className="space-y-4">
-          {projects.map((project, index) => (
+          {projects.filter((project) => !project.hidden).map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
