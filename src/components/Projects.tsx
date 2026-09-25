@@ -75,7 +75,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-700"
+            className="object-contain p-2 transition-transform duration-700"
             style={{ transform: hovered ? 'scale(1.06)' : 'scale(1)' }}
           />
           <div
