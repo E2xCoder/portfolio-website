@@ -232,6 +232,7 @@ export default function Labs() {
       title: "IBM SkillBuild Cybersecurity Fundamentals",
       description: "Covers CIA Triad, five foundational security principles, threat actor groups, cyberattack tactics and social engineering, common attack types, incident response and vulnerability management, IAM and endpoint security, network and application security, encryption techniques, hashing and PKI, security frameworks and compliance, case studies, overall defense strategies, and career roles in cybersecurity.",
       image: "https://i.ibb.co/hF4BVP3S/Screenshot-2025-07-28-024311.png",
+      imageAspect: 757 / 469,
       link: "https://drive.google.com/file/d/1LP6U14Tz7w8OLwoZyNbxqDNnYL0s5SRB/view",
       buttonText: "View Certificate",
       provider: "IBM SkillBuild",
@@ -242,6 +243,7 @@ export default function Labs() {
       title: "Introduction to Linux Course",
       description: "Completed Codecademy Introduction to Linux on Bash Scripting and Users & Permissions. Covered Linux architecture and kernel structure, file system hierarchy, user and group management, file ownership and permission settings, basic shell utilities, navigation commands, Bash scripting fundamentals with real‑world script projects, automation via build scripts and workflow tools.",
       image: "https://i.ibb.co/3y3DKzg9/Ekran-g-r-nt-s-28-7-2025-3227.jpg",
+      imageAspect: 370 / 293,
       link: "https://drive.google.com/file/d/1vUuYJmro6n_O70kGLHwjM-AfoPqNzPQ-/view",
       buttonText: "View Certificate",
       provider: "Codecademy",
@@ -252,6 +254,7 @@ export default function Labs() {
       title: "Learn Bash Scripting Course",
       description: "Covered Bash shebang (#!/bin/bash), variables and positional arguments, reading user input (read), comparison operators (==, !=), control structures (if‑else, loops), aliases, script permissions and execution, basic automation, script projects and quiz-based validation.",
       image: "https://i.ibb.co/7NRNbX26/Ekran-g-r-nt-s-28-7-2025-326.jpg",
+      imageAspect: 567 / 449,
       link: "https://drive.google.com/file/d/1kJ3Ld9v9sj28RBoC0VtmQ2xlCxtRmiti/view",
       buttonText: "View Certificate",
       provider: "Codecademy",
@@ -262,6 +265,7 @@ export default function Labs() {
       title: "Scan Systems with Nmap Skill Path",
       description: "Learned to perform network discovery, port scanning, and vulnerability auditing using Nmap. Created custom NSE scripts with Lua to automate scans and analyze results.",
       image: "https://i.ibb.co/PzZt0jfD/nmapcertification.pngnmapcertification.png",
+      imageAspect: 764 / 1080,
       link: "https://drive.google.com/file/d/1ak-hfGKl8mBTH-sZKpNWIYe17VgR_GSh/view?usp=drive_link",
       buttonText: "View Certificate",
       provider: " Codeacademy",
@@ -398,12 +402,15 @@ export default function Labs() {
 
                   <div className="relative z-10 max-w-sm mx-auto lg:mx-0 transition-all duration-500 hover:scale-105 group-hover:rotate-1">
                     <div className={`relative overflow-hidden rounded-2xl border-2 border-transparent bg-gradient-to-r ${getCategoryColor(project.category)}/50 p-1 hover:from-current hover:via-current hover:to-current transition-all duration-500`}>
-                      <div className="relative bg-gray-900/90 rounded-xl overflow-hidden backdrop-blur-sm aspect-[4/3]">
+                      <div
+                        className="relative bg-gray-900/90 rounded-xl overflow-hidden backdrop-blur-sm"
+                        style={{ aspectRatio: project.imageAspect }}
+                      >
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
-                          className="object-contain p-3 transition-transform duration-700 group-hover:scale-110"
+                          className="object-contain transition-transform duration-700 group-hover:scale-110"
                         />
 
                         {/* Neural Scan Line Effect */}
