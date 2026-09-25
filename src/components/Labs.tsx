@@ -264,8 +264,8 @@ export default function Labs() {
     {
       title: "Scan Systems with Nmap Skill Path",
       description: "Learned to perform network discovery, port scanning, and vulnerability auditing using Nmap. Created custom NSE scripts with Lua to automate scans and analyze results.",
-      image: "https://i.ibb.co/PzZt0jfD/nmapcertification.pngnmapcertification.png",
-      imageAspect: 764 / 1080,
+      image: "/nmap-cert.png",
+      imageAspect: 764 / 605,
       link: "https://drive.google.com/file/d/1ak-hfGKl8mBTH-sZKpNWIYe17VgR_GSh/view?usp=drive_link",
       buttonText: "View Certificate",
       provider: " Codeacademy",
