@@ -181,7 +181,7 @@ export default function Projects() {
     {
       title: 'Roamora',
       description: 'AI-powered autonomous trip planner that researches destinations and builds full multi-day itineraries — factoring in opening hours, live price research, weather, hiking trails, and restaurant picks using real map and search data.',
-      image: 'https://opengraph.githubassets.com/1/E2xCoder/roamora',
+      image: '/roamora.png',
       link: 'https://github.com/E2xCoder/roamora',
       tech: ['Next.js', 'TypeScript', 'Prisma', 'Ollama'],
       status: 'ONGOING',
