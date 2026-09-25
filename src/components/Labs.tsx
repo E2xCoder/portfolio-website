@@ -398,15 +398,14 @@ export default function Labs() {
 
                   <div className="relative z-10 max-w-sm mx-auto lg:mx-0 transition-all duration-500 hover:scale-105 group-hover:rotate-1">
                     <div className={`relative overflow-hidden rounded-2xl border-2 border-transparent bg-gradient-to-r ${getCategoryColor(project.category)}/50 p-1 hover:from-current hover:via-current hover:to-current transition-all duration-500`}>
-                      <div className="bg-gray-900/90 rounded-xl overflow-hidden backdrop-blur-sm">
+                      <div className="relative bg-gray-900/90 rounded-xl overflow-hidden backdrop-blur-sm aspect-[4/3]">
                         <Image
                           src={project.image}
                           alt={project.title}
-                          width={600}
-                          height={400}
-                          className="w-full h-auto transition-transform duration-700 group-hover:scale-110"
+                          fill
+                          className="object-contain p-3 transition-transform duration-700 group-hover:scale-110"
                         />
-                        
+
                         {/* Neural Scan Line Effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12"></div>
                       </div>
