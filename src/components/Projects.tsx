@@ -70,7 +70,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
       <div className="relative grid md:grid-cols-5 z-10">
         {/* Image */}
-        <div className="md:col-span-2 relative overflow-hidden" style={{ minHeight: '160px' }}>
+        <div className="md:col-span-1 relative overflow-hidden" style={{ minHeight: '160px' }}>
           <Image
             src={project.image}
             alt={project.title}
@@ -107,7 +107,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
 
         {/* Content */}
-        <div className="md:col-span-3 p-5 flex flex-col justify-between">
+        <div className="md:col-span-4 p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-medium tracking-widest uppercase" style={{ color: accent.glow }}>
