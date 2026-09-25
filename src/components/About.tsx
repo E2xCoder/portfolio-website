@@ -147,7 +147,7 @@ export default function About() {
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-4">
               {[
-                { val: '2nd', label: 'Year', icon: '🎓' },
+                { val: '3rd', label: 'Year', icon: '🎓' },
                 { val: 'Berlin', label: 'Location', icon: '📍' },
                 { val: '5+', label: 'Certs', icon: '🏆' },
               ].map(({ val, label, icon }) => (
