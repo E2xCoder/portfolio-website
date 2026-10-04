@@ -107,7 +107,7 @@ export default function Header() {
                   }}
                 >
                   <Image
-                    src="https://i.ibb.co/fm9G4t2/Whats-App-mage-2026-04-09-at-00-09-17.jpg"
+                    src="/images/avatar.jpg"
                     alt="Emre Eren"
                     fill
                     className="object-cover rounded-full"

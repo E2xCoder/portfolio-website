@@ -190,7 +190,7 @@ export default function Projects() {
     {
       title: 'SentinelAI',
       description: 'AI-assisted security log analysis and automated response tool for Linux. Parses logs in real time, runs rule-based and ML anomaly detection, enriches alerts with threat intel, and can trigger firewall responses automatically.',
-      image: 'https://opengraph.githubassets.com/1/E2xCoder/SentinelAI',
+      image: '/images/sentinelai.png',
       link: 'https://github.com/E2xCoder/SentinelAI',
       tech: ['Python', 'Cybersecurity', 'Machine Learning', 'Automation'],
       status: 'ONGOING',
@@ -208,7 +208,7 @@ export default function Projects() {
     {
       title: 'Linux Firewall Automation',
       description: 'Simple firewall management tool that automates UFW commands on Linux systems with CLI interface for managing ports, blocking IPs and firewall rules.',
-      image: 'https://i.ibb.co/8DCD94Ck/1775337586117.jpg',
+      image: '/images/firewall.jpg',
       link: 'https://github.com/E2xCoder/linux-firewall-automation',
       tech: ['Python', 'Linux', 'UFW', 'CLI Tool'],
       status: 'ACTIVE',
@@ -217,7 +217,7 @@ export default function Projects() {
     {
       title: 'Password Strength Analyzer',
       description: 'Analyzes password complexity with real-time feedback, supports MD5, SHA-256, NTLM, bcrypt hash types and color-coded terminal output.',
-      image: 'https://i.ibb.co/1JTc3jNQ/PassChecker.png',
+      image: '/images/password-checker.png',
       link: 'https://github.com/E2xCoder/Password-Strength-Control',
       tech: ['Python', 'Cybersecurity', 'CLI Tool', 'Security Tool'],
       status: 'ACTIVE',
@@ -226,7 +226,7 @@ export default function Projects() {
     {
       title: 'Network IP Monitoring',
       description: 'Tracks IPv4/IPv6 address changes, logs them daily and sends instant Telegram alerts for basic network monitoring.',
-      image: 'https://i.ibb.co/TB6V1zYq/Whats-App-Image-2025-07-28-at-00-26-27-723cf510.jpg',
+      image: '/images/network-ip.jpg',
       link: 'https://github.com/E2xCoder/Network-IP-Monitoring',
       tech: ['Bash', 'Networking', 'Telegram API'],
       status: 'ACTIVE',
@@ -235,7 +235,7 @@ export default function Projects() {
     {
       title: 'Library Management System',
       description: 'Python OOP project with Student/Teacher roles, borrowing limits and book availability tracking.',
-      image: 'https://i.ibb.co/RpZHtBsZ/Screenshot-2025-07-28-002151.png',
+      image: '/images/library.png',
       link: 'https://github.com/E2xCoder/library-management-system',
       tech: ['Python', 'OOP', 'Class Design'],
       status: 'ARCHIVED',
