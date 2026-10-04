@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -151,20 +150,10 @@ export default function Header() {
                   </a>
                 ))}
               </div>
-
-              <div className="ml-4 relative">
-                <div className="bg-black/20 backdrop-blur-sm rounded-full p-2 border border-white/10 hover:border-white/20 transition-all duration-300">
-                  <ThemeToggle />
-                </div>
-              </div>
             </nav>
 
             {/* Mobile Controls */}
             <div className="md:hidden flex items-center space-x-3">
-              <div className="bg-black/20 backdrop-blur-sm rounded-full p-2 border border-white/10">
-                <ThemeToggle />
-              </div>
-
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="group relative p-3 bg-black/20 backdrop-blur-sm rounded-full border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10"
